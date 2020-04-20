@@ -1,6 +1,10 @@
-# Create your views here.
+from django.shortcuts import render
 
-from django.shortcuts import render, redirect
+
+# TODO create matrix construction algorithm
+# TODO create matrix in a root folder as .npy file
+# TODO update database with spotify profile url, indexes in matrix and last tags
+# TODO create recommender system based on matrix previously created
 
 
 def index(request):

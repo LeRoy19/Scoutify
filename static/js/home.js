@@ -1,3 +1,6 @@
+
+// TODO finish displaying of recommended artists grid
+
 $(document).ready(function () {
     $("#navBtn").click(function () {
         if($(this).attr("opened") === "true"){
