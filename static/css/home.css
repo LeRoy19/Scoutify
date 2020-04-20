@@ -1,0 +1,120 @@
+.navLink {
+    color: white;
+    display: inline-block;
+    text-decoration: none;
+}
+.navLink:hover::after {
+    content: "";
+    display: block;
+    width: 70%;
+    border-bottom: 1px solid;
+    margin: 0 auto;
+    color: #1DB954;
+}
+.navLink:hover {
+    color: #1DB954;
+}
+
+
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1px;
+}
+
+.node circle {
+    stroke: #000000;
+    stroke-width: 1px;
+}
+
+div.tooltip {
+     position: absolute;
+     background-color: white;
+     max-width: 200px;
+     height: auto;
+     padding: 1px;
+     border-style: solid;
+     border-radius: 4px;
+     border-width: 1px;
+     box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
+     pointer-events: none;
+}
+
+text {
+    font: 10px sans-serif;
+    pointer-events: none;
+}
+
+.navbar {
+    background-color: #191414;
+}
+
+.navBtn {
+    color: white;
+    border: none;
+}
+.navBtn:hover{
+    color: #1DB954;
+}
+
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #191414;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 2.2vw;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+    cursor: pointer;
+}
+
+.sidenav a:hover {
+  color: #1DB954;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  left: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-right .5s;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+#pane{
+    margin: 1%;
+}
+
+#render:hover{
+    background-color: #191414;
+    border-color: #191414;
+    color: #1DB954;
+}
+
+#render{
+    background-color: white;
+    color: #1DB954;
+}
+
+
