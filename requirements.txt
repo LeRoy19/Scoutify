@@ -8,6 +8,7 @@ certifi=2020.4.5.1=py37_0
 chardet=3.0.4=pypi_0
 decorator=4.4.2=py_0
 django=3.0.3=py_0
+dnspython=1.16.0=py37_0
 icc_rt=2019.0.0=h0cc432a_1
 idna=2.9=pypi_0
 intel-openmp=2020.0=166
