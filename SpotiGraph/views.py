@@ -1,4 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render
+from SpotiGraph.graph import create_graph
+from .crawler import spotify
 
 
 # TODO create matrix construction algorithm
@@ -12,7 +15,12 @@ def index(request):
 
 
 def get_graph(request):
-    pass
+    if request.is_ajax():
+        name = request.POST.get('name')
+        diameter = request.POST.get('diameter')
+        graph = create_graph(300, name, int(diameter))
+        return JsonResponse({"nodes": graph['data']['nodes'],
+                             "links": graph['data']['links']})
 
 
 def authentication(request):
@@ -24,4 +32,8 @@ def track_recommender(request):
 
 
 def get_last_album(request):
-    pass
+    if request.is_ajax():
+        data = spotify.artist_albums(artist_id=request.GET.get('id'), limit=1)
+        url = data['items'][0]['external_urls']['spotify']
+        ins = url.find('/album')
+        return JsonResponse({'url': url[:ins] + '/embed' + url[ins:]})
