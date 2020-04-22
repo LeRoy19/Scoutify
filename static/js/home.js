@@ -19,8 +19,7 @@ $(document).ready(function () {
     $("#recommender2").click(function () {
             showRecommenerOptions();
     })
-
-
+    
 });
 
 function showRecommenerOptions() {

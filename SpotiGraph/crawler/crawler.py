@@ -1,7 +1,7 @@
 import pylast
 import pymongo.errors
 import spotipy
-from .artist import *
+from SpotiGraph.crawler.artist import *
 from pymongo import MongoClient
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -12,7 +12,10 @@ SPOTIFY_KEY = "8dceec3b5bec4d618979142ee304feb9"
 SPOTIFY_SECRET = "8f9afd96f99d49b38946b18ea05bd8d6"
 client = MongoClient('mongodb+srv://guasta98:CiaoCiao@cluster0-0pkkf.mongodb.net/test?retryWrites=true&w=majority')
 db = client.get_database('Prova')
-records = db.Artist
+db_artists = db.Artist
+number_of_artists = db_artists.count_documents({})
+db_tags = db.Tags
+number_of_tags = db_tags.count_documents({})
 
 # initialization of api
 last = pylast.LastFMNetwork(api_key=LAST_KEY, api_secret=LAST_SECRET)
@@ -23,6 +26,8 @@ spotify.trace = False
 
 # api methods
 # checked!!!
+
+# TODO reformat tags input and insert in database
 def api_get_artist_by_id(id: str) -> Artist:
     data = spotify.artist(id)
     related = api_get_related(id)
@@ -81,7 +86,7 @@ def api_get_id(name: str) -> str:
 
 # checked!!!
 def db_get_artist_by_id(id: str):
-    a = records.find_one({"_id": id})
+    a = db_artists.find_one({"_id": id})
     if a is not None:
         retVal = Artist(a["_id"], a["name"], a["genres"], a["tags"], a["related"], a["image"])
         return retVal
@@ -99,7 +104,7 @@ def db_insert_artist(artist_id: str, limit: int = None):
             actual = to_insert.pop(0)
             dic = api_get_artist_by_id(actual).get_as_dict()
             try:
-                records.insert_one(dic)
+                db_artists.insert_one(dic)
                 retVal[dic["_id"]] = dic
             except pymongo.errors.DuplicateKeyError:
                 print(dic['name'] + " is already stored!")
@@ -110,7 +115,7 @@ def db_insert_artist(artist_id: str, limit: int = None):
     else:
         art = api_get_artist_by_id(artist_id).get_as_dict()
         try:
-            records.insert_one(art)
+            db_artists.insert_one(art)
             return art
         except pymongo.errors.DuplicateKeyError:
             print(art['name'] + " is already stored!")
@@ -121,7 +126,7 @@ def db_get_tag_by_names(names: list) -> str:
     filters = []
     for name in names:
         filters.append({'name': name})
-    rec = records.find({'$or': filters}, {'tags': 1, '_id': 0})
+    rec = db_artists.find({'$or': filters}, {'tags': 1, '_id': 0})
     val = " "
     for record in rec:
         if isinstance(record['tags'], str):
@@ -147,7 +152,7 @@ def get_artist_by_name(name: str) -> Artist:
 
 
 def get_all_artists_as_dict() -> dict:
-    art = list(records.find({}))
+    art = list(db_artists.find({}))
     retVal = {}
     for x in art:
         retVal[x["_id"]] = {"_id": x["_id"],
@@ -165,7 +170,7 @@ def get_tags(id: str) -> str:
 
 
 def get_all_artists_tags() -> dict:
-    data = records.find({}, {'name': 1, 'tags': 1, "_id": 0})
+    data = db_artists.find({}, {'name': 1, 'tags': 1, "_id": 0})
     artists = []
     tags = []
     for i in data:

@@ -3,7 +3,7 @@ import json
 
 class Artist:
 
-    def __init__(self, id: str, name: str, genres: list, tags: str, related: list, image: str):
+    def __init__(self, id: str, name: str, genres: list, tags: list, related: list, image: str, row: int):
         super().__init__()
         self.name = name
         self.id = id
@@ -11,6 +11,8 @@ class Artist:
         self.tags = tags
         self.related = related
         self.image = image
+        self.url = "https://open.spotify.com/artist/" + self.id
+        self.row = row
 
     def get_name(self) -> str:
         return self.name
@@ -23,6 +25,7 @@ class Artist:
 
     def set_id(self, id: str):
         self.id = id
+        self.url = "https://open.spotify.com/artist/" + id
 
     def get_genres(self) -> list:
         return self.genres
@@ -30,10 +33,10 @@ class Artist:
     def set_genres(self, genres: list):
         self.genres = genres
 
-    def get_tags(self) -> str:
+    def get_tags(self) -> list:
         return self.tags
 
-    def set_tags(self, tags: str):
+    def set_tags(self, tags: list):
         self.tags = tags
 
     def get_related(self) -> list:
@@ -48,6 +51,15 @@ class Artist:
     def set_image(self, image: str):
         self.image = image
 
+    def set_row(self, row: int):
+        self.row = row
+
+    def get_row(self):
+        return self.row
+
+    def get_url(self):
+        return self.url
+
     def get_as_JSON(self) -> json:
         x = {
             "_id": self.id,
@@ -55,7 +67,8 @@ class Artist:
             "genres": self.genres,
             "tags": self.tags,
             "related": self.related,
-            "image": self.image
+            "image": self.image,
+            "row": self.row
         }
         return json.dumps(x)
 
@@ -66,7 +79,8 @@ class Artist:
             "genres": self.genres,
             "tags": self.tags,
             "related": self.related,
-            "image": self.image
+            "image": self.image,
+            "row": self.row
         }
         return x
 
