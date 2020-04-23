@@ -1,9 +1,9 @@
 import pylast
-import pymongo.errors
 import spotipy
 from SpotiGraph.crawler.artist import *
 from pymongo import MongoClient
 from spotipy.oauth2 import SpotifyClientCredentials
+import numpy as np
 
 # credentials
 LAST_KEY = "5f52c83a8ed0440af21be4b5514262ae"
@@ -81,14 +81,15 @@ def api_get_id(name: str) -> str:
 def db_get_artist_by_id(id: str):
     a = db_artists.find_one({"_id": id})
     if a is not None:
-        retVal = Artist(a["_id"], a["name"], a["genres"], a["tags"], a["related"], a["image"])
+        retVal = Artist(a["_id"], a["name"], a["genres"], a["tags"], a["related"], a["image"], a['row'])
         return retVal
     else:
         return None
 
 
-# checked!!!
+# not checked!!!
 def db_insert_artist(artist_id: str, limit: int = None):
+    matrix = np.load(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy")
     number_of_artists = db_artists.count_documents({})
     number_of_tags = db_tags.count_documents({})
     if limit is not None:
@@ -103,24 +104,46 @@ def db_insert_artist(artist_id: str, limit: int = None):
             if db_artists.update_one({'_id': dic['_id']}, {'$setOnInsert': dic}, upsert=True).upserted_id is not None:
                 number_of_artists += 1
                 retVal[dic["_id"]] = dic
+                tags_inserted = []
                 for tag in dic['tags']:
-                    db_tags.update_one({'_id': tag},
-                                       {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
-                                       upsert=True)
-                    number_of_tags += 1
+                    if db_tags.update_one({'_id': tag},
+                                          {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
+                                          upsert=True).upserted_id is not None:
+                        tags_inserted.append(number_of_tags)
+                        number_of_tags += 1
+                    else:
+                        to_append = db_tags.find_one({'_id': tag})
+                        tags_inserted.append(to_append['columns'])
+
+                new_row = np.zeros(number_of_tags, dtype=int)
+                for column in tags_inserted:
+                    new_row[column] = 1
+                matrix = np.vstack([matrix, new_row])
             inserted += 1
             for x in dic["related"]:
                 to_insert.append(x)
+        np.save(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy", matrix)
         return retVal
     else:
         art = api_get_artist_by_id(artist_id).get_as_dict()
         if db_artists.update_one({'_id': art['_id']}, {'$setOnInsert': art}, upsert=True).upserted_id is not None:
             number_of_artists += 1
+            tags_inserted = []
             for tag in art['tags']:
-                db_tags.update_one({'_id': tag},
-                                   {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
-                                   upsert=True)
-                number_of_tags += 1
+                if db_tags.update_one({'_id': tag},
+                                      {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
+                                      upsert=True).upserted_id is not None:
+                    tags_inserted.append(number_of_tags)
+                    number_of_tags += 1
+                else:
+                    to_append = db_tags.find_one({'_id': tag})
+                    tags_inserted.append(to_append['columns'])
+
+            new_row = np.zeros(number_of_tags, dtype=int)
+            for column in tags_inserted:
+                new_row[column] = 1
+            matrix = np.vstack([matrix, new_row])
+            np.save(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy", matrix)
             return art
         else:
             return None
@@ -169,6 +192,7 @@ def get_all_artists_as_dict() -> dict:
 def get_tags(id: str) -> list:
     artist = get_artist_by_id(id)
     return artist.get_tags()
+
 
 # TODO check this function
 def get_all_artists_tags() -> dict:
