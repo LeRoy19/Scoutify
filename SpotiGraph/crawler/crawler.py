@@ -13,9 +13,7 @@ SPOTIFY_SECRET = "8f9afd96f99d49b38946b18ea05bd8d6"
 client = MongoClient('mongodb+srv://guasta98:CiaoCiao@cluster0-0pkkf.mongodb.net/test?retryWrites=true&w=majority')
 db = client.get_database('Prova')
 db_artists = db.Artist
-number_of_artists = db_artists.count_documents({})
 db_tags = db.Tags
-number_of_tags = db_tags.count_documents({})
 
 # initialization of api
 last = pylast.LastFMNetwork(api_key=LAST_KEY, api_secret=LAST_SECRET)
@@ -27,20 +25,15 @@ spotify.trace = False
 # api methods
 # checked!!!
 
-# TODO reformat tags input and insert in database
 def api_get_artist_by_id(id: str) -> Artist:
     data = spotify.artist(id)
     related = api_get_related(id)
     tag = last.get_artist(data["name"]).get_top_tags() + data["genres"]
-    val = ''
+    tags = []
     for i in tag:
-        val += str(i[0]) + " "
+        tags.append(str(i[0]))
     for i in data['genres']:
-        val += i + " "
-    val = val.lower()
-    val = val.split(' ')
-    val = list(set(val))
-    tags = ' '.join(val)
+        tags.append(i)
     try:
         img = data['images'][2]['url']
     except IndexError:
@@ -52,7 +45,7 @@ def api_get_artist_by_id(id: str) -> Artist:
             except IndexError:
                 img = None
     return Artist(id=data["id"], name=data["name"], genres=data["genres"], tags=tags, related=related,
-                  image=img)
+                  image=img, row=-1)
 
 
 # checked!!!
@@ -96,6 +89,8 @@ def db_get_artist_by_id(id: str):
 
 # checked!!!
 def db_insert_artist(artist_id: str, limit: int = None):
+    number_of_artists = db_artists.count_documents({})
+    number_of_tags = db_tags.count_documents({})
     if limit is not None:
         to_insert = [artist_id]
         inserted = 0
@@ -103,37 +98,42 @@ def db_insert_artist(artist_id: str, limit: int = None):
         while len(to_insert) > 0 and inserted < limit:
             actual = to_insert.pop(0)
             dic = api_get_artist_by_id(actual).get_as_dict()
-            try:
-                db_artists.insert_one(dic)
+            if dic['row'] == -1:
+                dic['row'] = number_of_artists
+            if db_artists.update_one({'_id': dic['_id']}, {'$setOnInsert': dic}, upsert=True).upserted_id is not None:
+                number_of_artists += 1
                 retVal[dic["_id"]] = dic
-            except pymongo.errors.DuplicateKeyError:
-                print(dic['name'] + " is already stored!")
+                for tag in dic['tags']:
+                    db_tags.update_one({'_id': tag},
+                                       {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
+                                       upsert=True)
+                    number_of_tags += 1
             inserted += 1
             for x in dic["related"]:
                 to_insert.append(x)
         return retVal
     else:
         art = api_get_artist_by_id(artist_id).get_as_dict()
-        try:
-            db_artists.insert_one(art)
+        if db_artists.update_one({'_id': art['_id']}, {'$setOnInsert': art}, upsert=True).upserted_id is not None:
+            number_of_artists += 1
+            for tag in art['tags']:
+                db_tags.update_one({'_id': tag},
+                                   {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
+                                   upsert=True)
+                number_of_tags += 1
             return art
-        except pymongo.errors.DuplicateKeyError:
-            print(art['name'] + " is already stored!")
+        else:
             return None
 
 
-def db_get_tag_by_names(names: list) -> str:
+def db_get_tag_by_artist_names(names: list) -> list:
     filters = []
     for name in names:
         filters.append({'name': name})
     rec = db_artists.find({'$or': filters}, {'tags': 1, '_id': 0})
-    val = " "
+    tags = []
     for record in rec:
-        if isinstance(record['tags'], str):
-            val += record['tags'] + " "
-    val = val.split(' ')
-    val = list(set(val))
-    tags = ' '.join(val)
+        tags.append(record['tags'])
     return tags
 
 
@@ -160,15 +160,17 @@ def get_all_artists_as_dict() -> dict:
                             "genres": x["genres"],
                             "related": x["related"],
                             "tags": x["tags"],
-                            "image": x['image']}
+                            "image": x['image'],
+                            "url": "https://open.spotify.com/artist/" + x["_id"],
+                            "row": x["row"]}
     return retVal
 
 
-def get_tags(id: str) -> str:
+def get_tags(id: str) -> list:
     artist = get_artist_by_id(id)
     return artist.get_tags()
 
-
+# TODO check this function
 def get_all_artists_tags() -> dict:
     data = db_artists.find({}, {'name': 1, 'tags': 1, "_id": 0})
     artists = []
