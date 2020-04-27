@@ -103,6 +103,7 @@ def db_insert_artist(artist_id: str, limit: int = None):
                 dic['row'] = number_of_artists
             if db_artists.update_one({'_id': dic['_id']}, {'$setOnInsert': dic}, upsert=True).upserted_id is not None:
                 number_of_artists += 1
+                print("inserted Artist")
                 retVal[dic["_id"]] = dic
                 tags_inserted = []
                 for tag in dic['tags']:
@@ -110,10 +111,11 @@ def db_insert_artist(artist_id: str, limit: int = None):
                                           {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
                                           upsert=True).upserted_id is not None:
                         tags_inserted.append(number_of_tags)
+                        print("inserted Tags")
                         number_of_tags += 1
                     else:
                         to_append = db_tags.find_one({'_id': tag})
-                        tags_inserted.append(to_append['columns'])
+                        tags_inserted.append(to_append['column'])
 
                 new_row = np.zeros(number_of_tags, dtype=int)
                 for column in tags_inserted:
@@ -137,7 +139,7 @@ def db_insert_artist(artist_id: str, limit: int = None):
                     number_of_tags += 1
                 else:
                     to_append = db_tags.find_one({'_id': tag})
-                    tags_inserted.append(to_append['columns'])
+                    tags_inserted.append(to_append['column'])
 
             new_row = np.zeros(number_of_tags, dtype=int)
             for column in tags_inserted:
@@ -158,6 +160,10 @@ def db_get_tag_by_artist_names(names: list) -> list:
     for record in rec:
         tags.append(record['tags'])
     return tags
+
+
+def get_tag_column(tag: str) -> int:
+    return db_tags.find_one({'_id': tag})['column']
 
 
 # facade methods

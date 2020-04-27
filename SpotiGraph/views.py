@@ -4,10 +4,6 @@ from SpotiGraph.crawler.graph import create_graph
 from SpotiGraph.crawler import crawler
 
 
-# TODO create matrix construction algorithm
-# TODO create recommender system based on matrix previously created
-
-
 def index(request):
     return render(request, "home.html")
 
