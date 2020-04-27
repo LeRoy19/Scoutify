@@ -204,3 +204,18 @@ def get_all_artists_tags() -> dict:
         tags.append(i['tags'])
     return {'artists': artists,
             'tags': tags}
+
+
+def get_artists_by_row() -> dict:
+    data = db_artists.find({})
+    ret_val = {}
+    for x in data:
+        ret_val[x['row']] = {"_id": x["_id"],
+                             "name": x["name"],
+                             "genres": x["genres"],
+                             "related": x["related"],
+                             "tags": x["tags"],
+                             "image": x['image'],
+                             "url": "https://open.spotify.com/artist/" + x["_id"],
+                             "row": x["row"]}
+    return ret_val
