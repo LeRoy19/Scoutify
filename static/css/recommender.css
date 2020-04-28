@@ -1,0 +1,27 @@
+.boxes {
+    position: relative;
+}
+
+.boxes-img {
+    opacity: 0.7;
+    cursor: pointer;
+    max-width: 90%;
+    height: auto;
+}
+
+.boxes-icon {
+    position: absolute;
+    bottom: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fas {
+    cursor: pointer;
+}
+
+.img-active {
+    opacity: 1;
+    border: 3px solid #1DB954;
+}
+

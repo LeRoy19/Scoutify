@@ -99,11 +99,10 @@ def db_insert_artist(artist_id: str, limit: int = None):
         while len(to_insert) > 0 and inserted < limit:
             actual = to_insert.pop(0)
             dic = api_get_artist_by_id(actual).get_as_dict()
-            if dic['row'] == -1:
-                dic['row'] = number_of_artists
+            dic['row'] = number_of_artists
             if db_artists.update_one({'_id': dic['_id']}, {'$setOnInsert': dic}, upsert=True).upserted_id is not None:
                 number_of_artists += 1
-                print("inserted Artist")
+                print("inserted Artist at row", dic['row'])
                 retVal[dic["_id"]] = dic
                 tags_inserted = []
                 for tag in dic['tags']:

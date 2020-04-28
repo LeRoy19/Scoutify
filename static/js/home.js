@@ -2,14 +2,6 @@
 // TODO finish displaying of recommended artists grid
 
 $(document).ready(function () {
-    $("#navBtn").click(function () {
-        if($(this).attr("opened") === "true"){
-            closeNav();
-        }
-        else{
-           openNav();
-        }
-    });
 
     $("#findArtist").click(function () {
         closeNav();
@@ -146,17 +138,6 @@ function recommend(token) {
 
 }
 
-function closeNav() {
-    $("#sideNav").css("width", "0");
-    $("#main").css("margin-right", "0");
-    $("#navBtn").attr("opened","false");
-}
-
-function openNav() {
-    $("#sideNav").css("width","25%");
-    $("#main").css("margin-right", "25%");
-    $("#navBtn").attr("opened","true");
-}
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Graph</title>
+    {% include 'include.html' %}
+    <link rel="stylesheet" href="{% static 'css/graph.css' %}">
+    <script src="{% static 'js/graph.js' %}"></script>
+</head>
+<body>
+    <div id="main">
+        <script>renderNav('graph')</script>
+        <div id="pane" class="row"></div>
+    </div>
+    {% include 'sidenav.html' %}
+</body>
+</html>

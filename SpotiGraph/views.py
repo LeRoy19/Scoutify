@@ -5,7 +5,11 @@ from SpotiGraph.crawler import crawler
 
 
 def index(request):
-    return render(request, "home.html")
+    return render(request, 'home.html')
+
+
+def recommender(request):
+    return render(request, 'recommender.html')
 
 
 def get_graph(request):

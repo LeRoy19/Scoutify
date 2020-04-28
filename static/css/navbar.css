@@ -1,0 +1,27 @@
+.navLink {
+    color: white;
+}
+
+.navLink:hover {
+    color: #1DB954;
+}
+
+.navLinkActive {
+    color: #1DB954;
+}
+
+
+
+.navbar {
+    background-color: #191414;
+}
+.navBtn {
+    color: white;
+    border: none;
+}
+.navBtn:hover{
+    color: #1DB954;
+}
+
+
+
