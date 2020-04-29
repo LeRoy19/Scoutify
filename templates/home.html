@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}"></script>
 </head>
-<body>
+<body onload="render_top_artists({{ request.client }})">
 {% csrf_token %}
     <input type="hidden" id="hdnSession" data-value="{{ request.session.code }}" />
     <div id="main">
@@ -18,49 +18,7 @@
 
         <div id="pane">
             <h2 class="dashboard">Artisti Top</h2>
-            <div id="artistsDiv" class="row">
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 1</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 2</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 3</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 4</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 5</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 6</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 7</h6>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="card">
-                        <h6>Artista 8</h6>
-                    </div>
-                </div>
-
-            </div>
+            <div id="artistsDiv" class="row"></div>
             <div id="tagsDiv">
                 <h2>Tags</h2>
                 <h2>...</h2>

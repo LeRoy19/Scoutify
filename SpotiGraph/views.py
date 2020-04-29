@@ -5,6 +5,7 @@ from SpotiGraph.crawler import crawler
 
 
 def index(request):
+    request.__setattr__('client', crawler.client_credentials_manager.get_access_token())
     return render(request, 'home.html')
 
 

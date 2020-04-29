@@ -14,6 +14,55 @@ $(document).ready(function () {
     
 });
 
+
+function render_top_artists(client){
+    access_token = client['access_token'];
+
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.spotify.com/v1/playlists/37i9dQZEVXbIQnj7RRhdSX',
+        headers: { 'Authorization' : 'Bearer ' + access_token },
+        success: function (result) {
+            let artists = {}
+
+            for (var i=0; i < result['tracks']['items'].length; i++){
+                var name = result['tracks']['items'][i]['track']['artists'][0]['name'];
+                if(name in artists){
+                    artists[name] = artists[name] + 1
+                }
+                else {
+                    artists[name] = 1
+                }
+            }
+            var ret_val = []
+            for (i=0; i < 12; i++){
+                var keys   = Object.keys(artists);
+                var highest = Math.max.apply(null, keys.map(function(x) { return artists[x]} ));
+                var match  = keys.filter(function(y) { return artists[y] === highest });
+                match.forEach(function (artist) {
+                    ret_val.push(artist);
+                    delete artists[artist];
+                });
+            }
+
+            artists = ret_val.slice(0,12);
+            artists.forEach(function (arrtist) {
+                $("#artistsDiv").append("<div class=\"col-lg-3\">\n" +
+                    "                       <div class=\"card\">\n" +
+                    "                           <h6>"+arrtist+"</h6>\n" +
+                    "                       </div>\n" +
+                    "                   </div>")
+            });
+
+
+
+        }, error: function (jqXHR) {
+            showError(jqXHR);
+        }
+    });
+
+}
+
 function showRecommenerOptions() {
     sidenav = $("#sideNav");
     let rec = $("#recommender2");
