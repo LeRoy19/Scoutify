@@ -16,14 +16,63 @@
 
         <script>renderNav('home')</script>
 
-        <script src="//d3js.org/d3.v3.min.js"></script>
-        <script>drawPresentation()</script>
-        <div id="pane" class="row"></div>
+        <div id="pane">
+            <h2 class="dashboard">Artisti Top</h2>
+            <div id="artistsDiv" class="row">
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 1</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 2</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 3</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 4</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 5</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 6</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 7</h6>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <h6>Artista 8</h6>
+                    </div>
+                </div>
+
+            </div>
+            <div id="tagsDiv">
+                <h2>Tags</h2>
+                <h2>...</h2>
+                <h2>...</h2>
+                <h2>Tags</h2>
+                <h2>...</h2>
+                <h2>...</h2>
+            </div>
+        </div>
     </div>
     {% include 'sidenav.html' %}
 
-    <footer class="page-footer" style="text-align: center">
-        <iframe id='player' src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width='500' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    </footer>
+
 </body>
 </html>

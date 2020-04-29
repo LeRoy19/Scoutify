@@ -9,33 +9,74 @@
     <script src="{% static 'js/recommender.js' %}"></script>
 </head>
 <body>
+    <script>renderNav('recommender')</script>
     <div id="main">
-        <script>renderNav('recommender')</script>
+
         {% include 'sidenav.html' %}
-        <div class="row" style="text-align: center; margin-top: 2%;">
+        <div class="row" id = "boxesDiv">
             <div class="col-lg-4 boxes">
-                <img id="played" active="false" alt="" class="boxes-img img-fluid rounded" src="{% static 'img/listening.jpg' %}">
-                <div class="boxes-icon"><i class="fas fa-4x fa-headphones" ></i></div>
+                <div class="card">
+                    <div class="card-header">
+                        <img id="played" active="false" alt="" class="boxes-img img-fluid rounded" src="{% static 'img/listening.jpg' %}">
+                        <div class="boxes-icon"><i class="fas fa-4x fa-headphones" ></i></div>
+                    </div>
+                    <div class="card-footer">
+                        <p id="p1">Last listened track recommender</p>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4 boxes">
-                <img id="artists" active="true" alt="" class="img-active boxes-img img-fluid rounded"
-                     src="{% static 'img/singing.jpg' %}">
-                <div class="boxes-icon"><i class="fas fa-4x fa-guitar"></i></div>
+                <div class="card">
+                    <div class="card-header">
+                        <img id="artists" active="true" alt="" class="img-active boxes-img img-fluid rounded"
+                        src="{% static 'img/singing.jpg' %}">
+                        <div class="boxes-icon"><i class="fas fa-4x fa-guitar"></i></div>
+                    </div>
+                    <div class="card-footer">
+                            <p id="p2" style="font-weight: bold;">Artists recommender</p>
+                    </div>
+                </div>
             </div>
             <div class="col-lg-4">
-                <img id="tags" active="false" alt="" class="boxes-img img-fluid rounded" src="{% static 'img/tags.jpg' %}">
-                <div class="boxes-icon"><i class="fas fa-4x fa-tag"></i></div>
-            </div>
-            <div class="col-lg-4">
-                <p id="p1">Last listened track recommender</p>
-            </div>
-            <div class="col-lg-4">
-                <p id="p2" style="font-weight: bold;">Artists recommender</p>
-            </div>
-            <div class="col-lg-4">
-                <p id="p3">Tags recommender</p>
+                <div class="card">
+                    <div class="card-header">
+                        <img id="tags" active="false" alt="" class="boxes-img img-fluid rounded" src="{% static 'img/tags.jpg' %}">
+                        <div class="boxes-icon"><i class="fas fa-4x fa-tag"></i></div>
+                    </div>
+                    <div class="card-footer">
+                        <p id="p3">Tags recommender</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+
+
+        </div>
+        <div id="pane">
+            <h1 class="display-4">Inserisci una lista di artisti separati da virgole</h1>
+            <input type="text" id="art" class="form-control">
+            <div class="row" style="margin: 1%;">
+                <div class="form-check col-lg-4">
+                  <label class="form-check-label" for="radio1">
+                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="1">Somiglianza scarsa
+                  </label>
+                </div>
+                <div class="form-check col-lg-4">
+                  <label class="form-check-label" for="radio2">
+                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="2" checked>Somiglianza media
+                  </label>
+                </div>
+                <div class="form-check col-lg-4">
+                  <label class="form-check-label" for="radio3">
+                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="3">Somiglianza forte
+                  </label>
+                </div>
+
+            </div>
+            <button id="search" class="btn btn-lg" ><i id="searchIcon" class="fas fa-2x fa-search"></i></button>
+        </div>
+
+
 </body>
 </html>

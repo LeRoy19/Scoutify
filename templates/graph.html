@@ -9,10 +9,14 @@
     <script src="{% static 'js/graph.js' %}"></script>
 </head>
 <body>
+<script>renderNav('graph')</script>
     <div id="main">
-        <script>renderNav('graph')</script>
-        <div id="pane" class="row"></div>
+
     </div>
-    {% include 'sidenav.html' %}
+    <footer class="page-footer" style="text-align: center">
+            <iframe id='player' src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width='500' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </footer>
+{% include 'sidenav.html' %}
+
 </body>
 </html>

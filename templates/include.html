@@ -11,43 +11,37 @@
 <script>
     function renderNav(active) {
     if(active === 'home'){
-        $("#main").html("<nav class=\"navbar\">\n" +
-        "            <a class=\"navbar-brand\" href=\"#\">\n" +
+        $("#main").html("<nav class=\"navbar fixed-top\">\n" +
+        "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink navLinkActive nav-link\" href=\"/home\">Home</a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/graph\" >Graph</a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/recommender\">Recommender</a>\n" +
         "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
-        "        </nav>\n" +
-        "        <div id=\"pane\" class=\"row\"></div>\n" +
-        "    </div>")
+        "        </nav>\n" )
     }
     else if(active === 'graph'){
-        $("#main").html("<nav class=\"navbar\">\n" +
-        "            <a class=\"navbar-brand\" href=\"#\">\n" +
+        $("body").html("<nav class=\"navbar fixed-top\">\n" +
+        "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/home\">Home</a>\n" +
         "            <a class=\"navLink navLinkActive nav-link\" href=\"/graph\" >Graph</a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/recommender\">Recommender</a>\n" +
         "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
-        "        </nav>\n" +
-        "        <div id=\"pane\" class=\"row\"></div>\n" +
-        "    </div>")
+        "        </nav>\n")
     }
     else if(active === 'recommender'){
-        $("#main").html("<nav class=\"navbar\">\n" +
-        "            <a class=\"navbar-brand\" href=\"#\">\n" +
+        $("body").html("<nav class=\"navbar fixed-top\">\n" +
+        "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/home\">Home</a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/graph\" >Graph</a>\n" +
         "            <a class=\"navLink navLinkActive nav-link\" href=\"/recommender\">Recommender</a>\n" +
         "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
-        "        </nav>\n" +
-        "        <div id=\"pane\" class=\"row\"></div>\n" +
-        "    </div>")
+        "        </nav>\n")
     }
 }
 </script>

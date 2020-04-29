@@ -2,10 +2,10 @@ $(document).ready(function () {
     $("#navBtn").click(function () {
         console.log('cliccato');
         if($(this).attr("opened") === "true"){
-            closeNav();
+
         }
         else{
-           openNav();
+
         }
     });
 

@@ -12,6 +12,10 @@ def recommender(request):
     return render(request, 'recommender.html')
 
 
+def graph(request):
+    return  render(request, 'graph.html')
+
+
 def get_graph(request):
     if request.is_ajax():
         name = request.POST.get('name')

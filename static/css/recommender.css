@@ -11,17 +11,82 @@
 
 .boxes-icon {
     position: absolute;
-    bottom: 25%;
+    bottom: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
 .fas {
     cursor: pointer;
+    color: white;
 }
 
 .img-active {
     opacity: 1;
     border: 3px solid #1DB954;
+}
+
+body {
+    background-image: linear-gradient(to bottom, #29323c, #485563 );
+}
+
+text{
+    color: white;
+}
+h2{
+    color: white;
+}
+
+p{
+    color: white;
+}
+
+#boxesDiv{
+    text-align: center;
+    margin-right: 0;
+    margin-top: 2%;
+}
+
+#main{
+    margin-top: 10%;
+}
+
+#art{
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.display-4 {
+    color: white;
+}
+
+#search {
+    background: transparent;
+    margin-top: 1%;
+}
+
+#pane {
+    margin: 1%;
+    text-align: center;
+}
+
+label{
+    color: white;
+}
+
+.card {
+    background-color: transparent;
+    border: 0;
+}
+
+.card-header{
+    background-color: transparent;
+    border: 0;
+}
+
+.card-footer{
+    background-color: transparent;
+    border: 0;
 }
 
