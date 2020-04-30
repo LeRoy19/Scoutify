@@ -2,7 +2,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^home/$', views.index, name="index"),
+    url(r'^home/$', views.index, name="home"),
     url(r'^graph/$', views.graph, name="graph"),
     url(r'^authentication/$', views.authentication, name="auth"),
     url(r'^track_recommender/$', views.track_recommender, name="track_Rec"),

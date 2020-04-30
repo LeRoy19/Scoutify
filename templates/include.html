@@ -11,7 +11,7 @@
 <script>
     function renderNav(active) {
     if(active === 'home'){
-        $("#main").html("<nav class=\"navbar fixed-top\">\n" +
+        $("#main").html("<nav class=\"navbar\">\n" +
         "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
@@ -22,7 +22,7 @@
         "        </nav>\n" )
     }
     else if(active === 'graph'){
-        $("body").html("<nav class=\"navbar fixed-top\">\n" +
+        $("body").html("<nav class=\"navbar\">\n" +
         "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
@@ -33,7 +33,7 @@
         "        </nav>\n")
     }
     else if(active === 'recommender'){
-        $("body").html("<nav class=\"navbar fixed-top\">\n" +
+        $("body").html("<nav class=\"navbar\">\n" +
         "            <a class=\"navbar-brand\" href=\"/home\">\n" +
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +

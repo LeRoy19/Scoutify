@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}"></script>
 </head>
-<body onload="render_top_artists({{ request.client }})">
+<body onload="render_top_artists({{ request.client }}, 'Global');">
 {% csrf_token %}
     <input type="hidden" id="hdnSession" data-value="{{ request.session.code }}" />
     <div id="main">
@@ -17,17 +17,36 @@
         <script>renderNav('home')</script>
 
         <div id="pane">
-            <h2 class="dashboard">Artisti Top</h2>
-            <div id="artistsDiv" class="row"></div>
-            <div id="tagsDiv">
-                <h2>Tags</h2>
-                <h2>...</h2>
-                <h2>...</h2>
-                <h2>Tags</h2>
-                <h2>...</h2>
-                <h2>...</h2>
-            </div>
-        </div>
+                <div class="row" style="margin: 0;">
+                    <h1 id='TopArtists' class="display-4">Top Artists Global</h1>
+                    <div class="dropdown dropright show" style="margin: 1.5%;">
+                          <a style="background-color: #1DB954;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Change country
+                          </a>
+
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Global');">Global</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Italy');">Italy</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'USA');">Usa</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'United Kingdom');">United Kingdom</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Spain');">Spain</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Germany');">Germany</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Australia');">Australia</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'France');">France</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Ireland');">Ireland</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Belgium');">Belgium</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Portugal');">Portugal</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Canada');">Canada</button>
+                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Mexico');">Mexico</button>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="artistsDiv" class="row" ></div>
+                <div id="tagsDiv">
+
+                </div>
+            <
     </div>
     {% include 'sidenav.html' %}
 

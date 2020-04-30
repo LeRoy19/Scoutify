@@ -11,22 +11,41 @@ $(document).ready(function () {
     $("#recommender2").click(function () {
             showRecommenerOptions();
     })
+
+
+
     
 });
 
 
-function render_top_artists(client){
-    access_token = client['access_token'];
-
+function render_top_artists(client, country){
+    dict = {
+        'United Kingdom' : '37i9dQZEVXbLnolsZ8PSNw',
+        'USA' :'37i9dQZEVXbLRQDuF5jeBp',
+        'Italy' : '37i9dQZEVXbIQnj7RRhdSX',
+        'Global' : '37i9dQZEVXbMDoHDwVN2tF',
+        'Spain' : '37i9dQZEVXbNFJfN1Vw8d9',
+        'Japan' : '37i9dQZEVXbKXQ4mDTEBXq',
+        'Germany' : '37i9dQZEVXbJiZcmkrIHGU',
+        'Australia' : '37i9dQZEVXbJPcfkRz0wJ0',
+        'France' : '37i9dQZEVXbIPWwFssbupI',
+        'Ireland' : '37i9dQZEVXbKM896FDX8L1',
+        'Belgium' : '37i9dQZEVXbJNSeeHswcKB',
+        'Canada' : '37i9dQZEVXbKj23U1GF4IR',
+        'Portugal' : '37i9dQZEVXbKyJS56d1pgi',
+        'Mexico' : '37i9dQZEVXbO3qyFxbkOE1'
+    };
+    let access_token = client['access_token'];
+    let id = dict[country];
     $.ajax({
         type: 'GET',
-        url: 'https://api.spotify.com/v1/playlists/37i9dQZEVXbIQnj7RRhdSX',
+        url: 'https://api.spotify.com/v1/playlists/'+ id,
         headers: { 'Authorization' : 'Bearer ' + access_token },
         success: function (result) {
             let artists = {}
 
             for (var i=0; i < result['tracks']['items'].length; i++){
-                var name = result['tracks']['items'][i]['track']['artists'][0]['name'];
+                var name = result['tracks']['items'][i]['track']['artists'][0]['id'];
                 if(name in artists){
                     artists[name] = artists[name] + 1
                 }
@@ -46,20 +65,49 @@ function render_top_artists(client){
             }
 
             artists = ret_val.slice(0,12);
-            artists.forEach(function (arrtist) {
-                $("#artistsDiv").append("<div class=\"col-lg-3\">\n" +
-                    "                       <div class=\"card\">\n" +
-                    "                           <h6>"+arrtist+"</h6>\n" +
-                    "                       </div>\n" +
-                    "                   </div>")
+            $("#artistsDiv").html("");
+            $("#TopArtists").text("Top Artists "+country);
+            artists.forEach(function (artist) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://api.spotify.com/v1/artists/' + artist,
+                    headers: {'Authorization': 'Bearer ' + access_token},
+                    success: function (result) {
+                        var name = result['name'];
+                        var url = "https://open.spotify.com/artist/" + artist;
+                        var image = result['images'][0]['url'];
+                        var genres = '';
+                        result['genres'].forEach(function (genre) {
+                            genres += genre+', ';
+                        });
+                        genres = genres.substring(0, genres.length - 2);
+
+                        $("#artistsDiv").append("<div class=\"col-lg-3\">\n" +
+                            "                       <div class='card' url='"+url+"'>\n" +
+                            "                           <img class='card-img-top img-fluid' src='"+image+"' alt='Card image'>" +
+                            "                           <div class='card-footer'>\n" +
+                            "                               <h4 class='card-title'>"+name+"</h4>\n" +
+                            "                               <p style='text-align: left'>Genres: "+genres+"</p>" +
+                            "                           </div>\n" +
+                            "                       </div>\n" +
+                            "                   </div>");
+
+                        $(".card").click(function () {
+                            window.open($(this).attr('url'), '_blank');
+                        })
+                    }, error: function (jqXHR) {
+                        showError(jqXHR);
+                    }
+                });
             });
-
-
-
         }, error: function (jqXHR) {
             showError(jqXHR);
         }
     });
+
+}
+
+function update_charts(country){
 
 }
 
