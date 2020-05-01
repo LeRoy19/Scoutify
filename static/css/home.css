@@ -1,3 +1,16 @@
+html {
+    margin: 0;
+    min-height: 100%;
+    width: 100%;
+}
+
+body {
+    background-image: linear-gradient(to bottom, #29323c, #485563);
+    min-height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
 .link {
     fill: none;
     stroke: #666;
@@ -46,9 +59,6 @@ text {
 
 }
 
-body {
-    background-image: linear-gradient(to bottom, #29323c, #485563 );
-}
 
 p{
     color: white;
@@ -96,6 +106,25 @@ h6 {
     height: 20vw;
     object-fit: cover;
 }
+
+#playerDiv{
+    text-align: center;
+    margin-top: 1%;
+}
+
+.open {
+    background-color: #1DB954;
+    color: white;
+    border-radius: 30px;
+}
+
+.dropdown-toggle{
+    background-color: #1DB954;
+    color: white;
+    border-radius: 30px;
+}
+
+
 
 
 

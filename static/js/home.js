@@ -1,6 +1,3 @@
-
-// TODO finish displaying of recommended artists grid
-
 $(document).ready(function () {
 
     $("#findArtist").click(function () {
@@ -11,9 +8,6 @@ $(document).ready(function () {
     $("#recommender2").click(function () {
             showRecommenerOptions();
     })
-
-
-
     
 });
 
@@ -82,29 +76,54 @@ function render_top_artists(client, country){
                         });
                         genres = genres.substring(0, genres.length - 2);
 
-                        $("#artistsDiv").append("<div class=\"col-lg-3\">\n" +
-                            "                       <div class='card' url='"+url+"'>\n" +
-                            "                           <img class='card-img-top img-fluid' src='"+image+"' alt='Card image'>" +
-                            "                           <div class='card-footer'>\n" +
-                            "                               <h4 class='card-title'>"+name+"</h4>\n" +
-                            "                               <p style='text-align: left'>Genres: "+genres+"</p>" +
-                            "                           </div>\n" +
-                            "                       </div>\n" +
-                            "                   </div>");
+                        $("#artistsDiv").append(`<div class='col-lg-3'>
+                                                    <div class='card' data-aos="zoom-in-up" data-aos-duration="1800" >
+                                                        <img class='card-img-top img-fluid' src='`+image+`' alt='Card image' artistId='`+artist+`'>
+                                                        <div class='card-footer'>
+                                                            <h4 class='card-title'>`+name+`</h4>
+                                                            <!-- <p style='text-align: left'>Genres: `+genres+`</p> -->
+                                                            <button class="btn open" onclick="open_on_spotify('`+url+`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                        </div>
+                                                   </div>
+                                                 </div>`);
 
-                        $(".card").click(function () {
-                            window.open($(this).attr('url'), '_blank');
+                        $(".card-img-top").click(function () {
+                            change_album($(this).attr('artistId'),false);
                         })
                     }, error: function (jqXHR) {
                         showError(jqXHR);
                     }
                 });
+                change_album(artists[0],true);
+
             });
         }, error: function (jqXHR) {
             showError(jqXHR);
         }
     });
 
+}
+
+function open_on_spotify(url) {
+    window.open(url,"_blank");
+}
+
+function change_album(artist_id, first_time) {
+    console.log(artist_id);
+        $.ajax({
+            type: 'GET',
+            data: {'id' : artist_id},
+            url: '/get_last_album/',
+            success: function (result) {
+                $("#player").attr('src', result['url']);
+                if(first_time === false){
+                    window.scrollTo({top: document.body.scrollHeight, behavior:"smooth"});
+                }
+            },
+            error: function (jqXHR) {
+                showError(jqXHR);
+            }
+        });
 }
 
 function update_charts(country){
@@ -178,16 +197,7 @@ function renderTrackRecommender() {
             "</div>");
     }
 }
-function login() {
-    if(getToken() == null){
-        const authEndpoint = 'https://accounts.spotify.com/authorize';
-        const clientId = '8dceec3b5bec4d618979142ee304feb9';
-        const redirectUri = 'http://localhost:8000/';
-        const scopes = ['user-read-recently-played'];
 
-        window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token&show_dialog=true`;
-    }
-}
 
 function getToken() {
     const hash = window.location.hash

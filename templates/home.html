@@ -6,12 +6,15 @@
     <title>SpotiGraph</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include 'include.html' %}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <script src="{% static 'js/home.js' %}"></script>
+
 </head>
 <body onload="render_top_artists({{ request.client }}, 'Global');">
 {% csrf_token %}
-    <input type="hidden" id="hdnSession" data-value="{{ request.session.code }}" />
+
     <div id="main">
 
         <script>renderNav('home')</script>
@@ -43,13 +46,16 @@
                     </div>
                 </div>
                 <div id="artistsDiv" class="row" ></div>
-                <div id="tagsDiv">
-
+                <div id="playerDiv">
+                    <iframe id='player' src="" width='550' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </div>
-            <
+
     </div>
     {% include 'sidenav.html' %}
 
-
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+      <script>
+        AOS.init();
+      </script>
 </body>
 </html>
