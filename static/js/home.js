@@ -75,16 +75,29 @@ function render_top_artists(client, country){
                             genres += genre+', ';
                         });
                         genres = genres.substring(0, genres.length - 2);
-
+                        var followers = result['followers']['total'];
+                        var popularity = result['popularity'];
                         $("#artistsDiv").append(`<div class='col-lg-3'>
-                                                    <div class='card' data-aos="zoom-in-up" data-aos-duration="1800" >
-                                                        <img class='card-img-top img-fluid' src='`+image+`' alt='Card image' artistId='`+artist+`'>
-                                                        <div class='card-footer'>
-                                                            <h4 class='card-title'>`+name+`</h4>
-                                                            <!-- <p style='text-align: left'>Genres: `+genres+`</p> -->
-                                                            <button class="btn open" onclick="open_on_spotify('`+url+`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                    <div class="flip-card card" data-aos="zoom-in-up" data-aos-duration="1800">
+                                                        <div class='flip-card-inner'>
+                                                            <div class="flip-card-front">
+                                                                <img class='card-img-top img-fluid' src='`+image+`' alt='Card image' artistId='`+artist+`'>
+                                                                <div class='card-footer'>
+                                                                    <h4 class='card-title'>`+name+`</h4>
+                                                                </div>
+                                                            </div>
+                                                            <div class="flip-card-back">
+                                                                  <h3 class='card-title' style="margin-top: 6%;">`+name+`</h3>
+                                                                  <p>Followers: `+followers+`</p>
+                                                                  <p>Popularity: `+popularity+`</p>
+                                                                  <p>Genres: `+genres+`</p>
+                                                                  <button style="margin-bottom: 6%;" class="btn open" onclick="change_album('` + artist +`',false)"><i class="fab fa-spotify"></i> Listen last album</button>
+                                                                  <button class="btn open" onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                            </div>
+                                                        
                                                         </div>
-                                                   </div>
+                                                    </div>
+                                                    
                                                  </div>`);
 
                         $(".card-img-top").click(function () {
@@ -98,7 +111,7 @@ function render_top_artists(client, country){
 
             });
         }, error: function (jqXHR) {
-            showError(jqXHR);
+            location.reload();
         }
     });
 
@@ -109,7 +122,6 @@ function open_on_spotify(url) {
 }
 
 function change_album(artist_id, first_time) {
-    console.log(artist_id);
         $.ajax({
             type: 'GET',
             data: {'id' : artist_id},
@@ -296,14 +308,7 @@ function renderSearcher() {
         })
 }
 
-function getRandomColor() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-}
+
 
 function drawPresentation() {
     var nodes = {};

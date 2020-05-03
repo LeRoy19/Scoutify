@@ -11,34 +11,7 @@ body {
     margin: 0;
 }
 
-.link {
-    fill: none;
-    stroke: #666;
-    stroke-width: 1px;
-}
 
-.node circle {
-    stroke: #000000;
-    stroke-width: 1px;
-}
-
-div.tooltip {
-     position: absolute;
-     background-color: white;
-     max-width: 200px;
-     height: auto;
-     padding: 1px;
-     border-style: solid;
-     border-radius: 4px;
-     border-width: 1px;
-     box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
-     pointer-events: none;
-}
-
-text {
-    font: 10px sans-serif;
-    pointer-events: none;
-}
 
 #pane{
     margin: 1%;
@@ -56,7 +29,8 @@ text {
 }
 
 #main{
-
+    min-height: 100%;
+    width: 100%;
 }
 
 
@@ -96,9 +70,17 @@ h6 {
     color: white;
 }
 
+.col-lg-3 {
+    height: 25vw;
+    margin-bottom: 2%;
+    margin-top: 1%;
+}
+
 .card{
-    margin-bottom: 80%;
+    width: 100%;
+    height: 100%;
     cursor: pointer;
+    border: 0;
 }
 
 .card-img-top {
@@ -122,6 +104,45 @@ h6 {
     background-color: #1DB954;
     color: white;
     border-radius: 30px;
+}
+
+.flip-card{
+    perspective: 1000px;
+    background-color: transparent;
+}
+
+
+.flip-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+}
+
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+
+.flip-card-back {
+    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+    background-color: #29323c;
+    color: white;
+    transform: rotateY(180deg);
 }
 
 

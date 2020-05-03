@@ -21,18 +21,37 @@ def logic_or(arrays: list) -> np.array:
         raise Exception("length of arrays must be > 0")
 
 
-# to check
-def recommend_by_artists(artists: list, accuracy: float, number: int = None) -> list:
+def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) -> list:
     if number is None:
-        number = 5
-    all_artists = crawler.get_artists_by_row()
-    matrix = np.load(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy")
-    artists_tags = logic_or([matrix[i] for i in artists])
+        number = 6
+
+    db_artists = crawler.get_all_artists_as_dict()
+    db_tags = crawler.get_all_tags()
+
+    all_artists = db_artists['artists']
+    number_of_artists = db_artists['count']
+    all_tags = db_tags['tags']
+    number_of_tags = db_tags['count']
+
+    matrix = np.zeros((number_of_artists, number_of_tags), dtype=bool)
+    for i in all_artists:
+        for tag in all_artists[i]['tags']:
+            matrix[all_artists[i]['row']][all_tags[tag]['column']] = 1
+
+    in_rows = []
+    for i in in_artists:
+        arr = matrix[all_artists[i]['row']]
+        in_rows.append(arr)
+
+    input_tags = logic_or(in_rows)
     similarities = [{'similarity': -1} for i in range(number)]
-    for i in range(len(matrix)):
-        if i not in artists:
-            similarity = cosine(artists_tags, matrix[i])
+
+    for i in all_artists:
+        if i not in in_artists:
+            similarity = cosine(input_tags, matrix[all_artists[i]['row']])
+
             if similarity >= accuracy:
+
                 for j in similarities:
                     if j['similarity'] < similarity:
                         similarities.remove(min(similarities, key=lambda x: x['similarity']))

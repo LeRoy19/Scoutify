@@ -12,6 +12,63 @@ body {
 }
 
 #main{
-    margin-top: 10%;
+    min-height: 100%;
+    width: 100%;
 }
+
+h1 {
+    color: white;
+}
+
+#art{
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-outline-secondary{
+    background-color: transparent;
+    border-color: white;
+    color: white;
+}
+
+.btn-outline-secondary:hover{
+    background-color: #1DB954;
+    border-color: white;
+}
+
+#pane{
+    margin: 1%;
+    text-align: center;
+}
+
+.link {
+    fill: none;
+    stroke: #666;
+    stroke-width: 1px;
+}
+
+.node circle {
+    stroke: #000000;
+    stroke-width: 1px;
+}
+
+div.tooltip {
+     position: absolute;
+     background-color: white;
+     max-width: 200px;
+     height: auto;
+     padding: 1px;
+     border-style: solid;
+     border-radius: 4px;
+     border-width: 1px;
+     box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
+     pointer-events: none;
+}
+
+text {
+    font: 10px sans-serif;
+    pointer-events: none;
+}
+
 

@@ -10,10 +10,10 @@ LAST_KEY = "5f52c83a8ed0440af21be4b5514262ae"
 LAST_SECRET = "b9f3f2c9d1a855c6dd0508be9208f5e4"
 SPOTIFY_KEY = "8dceec3b5bec4d618979142ee304feb9"
 SPOTIFY_SECRET = "8f9afd96f99d49b38946b18ea05bd8d6"
-client = MongoClient('mongodb+srv://guasta98:CiaoCiao@cluster0-0pkkf.mongodb.net/test?retryWrites=true&w=majority')
-db = client.get_database('Prova')
-db_artists = db.Artist
-db_tags = db.Tags
+client = MongoClient("mongodb://localhost:27017/")
+db = client["spotigraph"]
+db_artists = db['artists']
+db_tags = db['tags']
 
 # initialization of api
 last = pylast.LastFMNetwork(api_key=LAST_KEY, api_secret=LAST_SECRET)
@@ -180,7 +180,7 @@ def get_artist_by_name(name: str) -> Artist:
 
 
 def get_all_artists_as_dict() -> dict:
-    art = list(db_artists.find({}))
+    art = list(db_artists.find().sort('row', 1))
     retVal = {}
     for x in art:
         retVal[x["_id"]] = {"_id": x["_id"],
@@ -191,7 +191,7 @@ def get_all_artists_as_dict() -> dict:
                             "image": x['image'],
                             "url": "https://open.spotify.com/artist/" + x["_id"],
                             "row": x["row"]}
-    return retVal
+    return {'artists': retVal, 'count': len(art)}
 
 
 def get_tags(id: str) -> list:
@@ -200,15 +200,13 @@ def get_tags(id: str) -> list:
 
 
 # TODO check this function
-def get_all_artists_tags() -> dict:
-    data = db_artists.find({}, {'name': 1, 'tags': 1, "_id": 0})
-    artists = []
-    tags = []
+def get_all_tags() -> dict:
+    data = list(db_tags.find({}))
+    ret_val = {}
+    count = len(data)
     for i in data:
-        artists.append(i['name'])
-        tags.append(i['tags'])
-    return {'artists': artists,
-            'tags': tags}
+        ret_val[i['_id']] = {'_id': i['_id'], 'column': i['column']}
+    return {'tags': ret_val, 'count': count}
 
 
 def get_artists_by_row() -> dict:

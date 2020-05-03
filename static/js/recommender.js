@@ -40,11 +40,11 @@ $(document).ready(function () {
 function recommend_by_artists() {
     let artists = $("#art").val();
     let type = $("input[name='optradio']:checked").val();
-    let array = artists.trim().split(",");
 
-    $("#pane").append(`<hr><div id='resultsDiv' class='row'>`);
+
+
     //for i in results
-    $("#resultsDiv").append(`<div class='col-lg-3'>   
+    /*$("#resultsDiv").append(`<div class='col-lg-3'>
                                 <div class='card'>       
                                     <div class='card-header'>
                                         <img src='...' alt='Artist image'>
@@ -64,8 +64,36 @@ function recommend_by_artists() {
                                             <div class='card-footer'>
                                                 <p>Somiglianza: 45%</p>
                                             </div> 
-                                        </div>`);
-    //chiamata ajax
+                                        </div>`);*/
+    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
+                                 <p>Looking for recommendations...</p>`);
+
+    $.ajax({
+        type: 'GET',
+        url: "../art_recommender/",
+        data: ({'artists' : artists,
+                'accuracy' : type}),
+        success : function (result) {
+            console.log(result['recommendations']);
+            $("#pane").html("").append(`<hr><h4 style="color: white;">Recommendations based on Izi, Tedua, Ghali</h4><div id='resultsDiv' class='row'>`);
+
+            result['recommendations'].forEach(function (artist) {
+
+                $("#resultsDiv").append(`<div class='col-lg-2'>
+                                            <div class="card" data-aos="zoom-in-up" data-aos-duration="1800">
+                                                        <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Card image' 
+                                                        artistId='`+artist['_id']+`'>
+                                                        <div class='card-footer'>
+                                                            <h4 class='card-title'>`+artist['name']+`</h4>
+                                                        </div>
+                                            </div>
+                                         </div>`);
+
+            });
+        }, error: function () {
+            console.log("error");
+        }
+    })
 }
 
 function recommend_by_recently_played () {
@@ -78,17 +106,17 @@ function tags_rec() {
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
-                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="1">Somiglianza scarsa
+                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.2">Somiglianza scarsa
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio2">
-                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="2" checked>Somiglianza media
+                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.35" checked>Somiglianza media
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio3">
-                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="3">Somiglianza forte
+                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.5">Somiglianza forte
                                   </label>
                                 </div>
                             </div>
@@ -109,17 +137,17 @@ function artists_rec() {
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
-                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="1">Somiglianza scarsa
+                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.2">Somiglianza scarsa
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio2">
-                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="2" checked>Somiglianza media
+                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.35" checked>Somiglianza media
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio3">
-                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="3">Somiglianza forte
+                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.5">Somiglianza forte
                                   </label>
                                 </div>
                             </div>

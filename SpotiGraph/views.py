@@ -2,10 +2,13 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from SpotiGraph.crawler.graph import create_graph
 from SpotiGraph.crawler import crawler
-
+import json
+from SpotiGraph.recommender_system import rec_sys
+import time
 
 def index(request):
-    request.__setattr__('client', crawler.client_credentials_manager.get_access_token())
+    token = json.dumps(crawler.client_credentials_manager.get_access_token())
+    request.__setattr__('client', token)
     return render(request, 'home.html')
 
 
@@ -14,7 +17,7 @@ def recommender(request):
 
 
 def graph(request):
-    return  render(request, 'graph.html')
+    return render(request, 'graph.html')
 
 
 def get_graph(request):
@@ -32,6 +35,17 @@ def authentication(request):
 
 def track_recommender(request):
     pass
+
+
+def art_recommender(request):
+    if request.is_ajax():
+        artists_names = request.GET.get('artists')
+        artists_names = artists_names.split(', ')
+        artist = []
+        for name in artists_names:
+            artist.append(crawler.api_get_id(name))
+        recommendations = rec_sys.recommend_by_artists(artist, float(request.GET.get('accuracy')))
+        return JsonResponse({'recommendations': recommendations})
 
 
 def get_last_album(request):
