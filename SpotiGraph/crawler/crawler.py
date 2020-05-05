@@ -75,6 +75,26 @@ def api_get_id(name: str) -> str:
     return data['artists']['items'][index]['id']
 
 
+def get_recently_played(token, limit: int = None):
+    if limit is None:
+        limit = 10
+    spo = spotipy.Spotify(auth=token)
+    results = spo.current_user_recently_played(limit)
+    data = []
+    for i in range(len(results['items'])):
+        artists = []
+        for j in range(len(results['items'][i]['track']['artists'])):
+            artists.append({'id': results['items'][i]['track']['artists'][j]['id'],
+                            'name': results['items'][i]['track']['artists'][j]['name']})
+        track = {
+            'id': results['items'][i]['track']['id'],
+            'name': results['items'][i]['track']['name'],
+            'artists': artists
+        }
+        data.append(track)
+    return data
+
+
 # database methods
 
 # checked!!!
@@ -222,3 +242,8 @@ def get_artists_by_row() -> dict:
                              "url": "https://open.spotify.com/artist/" + x["_id"],
                              "row": x["row"]}
     return ret_val
+
+
+def get_row(id: str) -> int:
+    data = db_artists.find_one({'_id': id})
+    return data['row']

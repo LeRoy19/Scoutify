@@ -23,7 +23,7 @@ def logic_or(arrays: list) -> np.array:
 
 def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) -> list:
     if number is None:
-        number = 6
+        number = 12
 
     db_artists = crawler.get_all_artists_as_dict()
     db_tags = crawler.get_all_tags()
@@ -40,8 +40,9 @@ def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) 
 
     in_rows = []
     for i in in_artists:
-        arr = matrix[all_artists[i]['row']]
-        in_rows.append(arr)
+        if i in all_artists.keys():
+            arr = matrix[all_artists[i]['row']]
+            in_rows.append(arr)
 
     input_tags = logic_or(in_rows)
     similarities = [{'similarity': -1} for i in range(number)]
@@ -65,15 +66,28 @@ def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) 
 # to check
 def recommend_by_tags(tags: list, accuracy: float, number: int = None) -> list:
     if number is None:
-        number = 5
-    all_artists = crawler.get_artists_by_row()
-    matrix = np.load(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy")
-    tags_row = np.zeros(len(matrix[0]), dtype=int)
-    for tag in tags:
-        tags_row[crawler.get_tag_column(tag)] = 1
+        number = 12
+    db_artists = crawler.get_all_artists_as_dict()
+    db_tags = crawler.get_all_tags()
+
+    all_artists = db_artists['artists']
+    number_of_artists = db_artists['count']
+    all_tags = db_tags['tags']
+    number_of_tags = db_tags['count']
+
+    matrix = np.zeros((number_of_artists, number_of_tags), dtype=bool)
+    for i in all_artists:
+        for tag in all_artists[i]['tags']:
+            matrix[all_artists[i]['row']][all_tags[tag]['column']] = 1
+
     similarities = [{'similarity': -1} for i in range(number)]
-    for i in range(len(matrix)):
-        similarity = cosine(tags_row, matrix[i])
+    input_tags = np.zeros(number_of_tags, dtype=bool)
+    for tag in tags:
+        input_tags[all_tags[tag]['column']] = 1
+
+    for i in all_artists:
+        similarity = cosine(input_tags, matrix[all_artists[i]['row']])
+
         if similarity >= accuracy:
             for j in similarities:
                 if j['similarity'] < similarity:

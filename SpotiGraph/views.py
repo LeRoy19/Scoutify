@@ -4,7 +4,7 @@ from SpotiGraph.crawler.graph import create_graph
 from SpotiGraph.crawler import crawler
 import json
 from SpotiGraph.recommender_system import rec_sys
-import time
+
 
 def index(request):
     token = json.dumps(crawler.client_credentials_manager.get_access_token())
@@ -34,7 +34,16 @@ def authentication(request):
 
 
 def track_recommender(request):
-    pass
+    if request.is_ajax():
+        token = request.GET.get('token')
+        last_played = crawler.get_recently_played(token, 10)
+        ids = []
+        for i in range(len(last_played)):
+            for j in last_played[i]['artists']:
+                ids.append(j['id'])
+        print(ids)
+        recommendations = rec_sys.recommend_by_artists(ids, 0.25)
+        return JsonResponse({'recommendations': recommendations})
 
 
 def art_recommender(request):
@@ -54,3 +63,13 @@ def get_last_album(request):
         url = data['items'][0]['external_urls']['spotify']
         ins = url.find('/album')
         return JsonResponse({'url': url[:ins] + '/embed' + url[ins:]})
+
+# TODO lowercase tags
+
+
+def tags_recommender(request):
+    if request.is_ajax():
+        tags = request.GET.get('tags')
+        tags = tags.split(', ')
+        recommendations = rec_sys.recommend_by_tags(tags, float(request.GET.get('accuracy')))
+        return JsonResponse({'recommendations': recommendations})

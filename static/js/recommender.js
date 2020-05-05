@@ -42,30 +42,7 @@ function recommend_by_artists() {
     let type = $("input[name='optradio']:checked").val();
 
 
-
-    //for i in results
-    /*$("#resultsDiv").append(`<div class='col-lg-3'>
-                                <div class='card'>       
-                                    <div class='card-header'>
-                                        <img src='...' alt='Artist image'>
-                                    </div>
-                                    <div class='card-body'>
-                                        <a href='#'>Nome: Tizio</a>
-                                    </div>
-                                    <div class='card-footer'><p>Somiglianza: 45%</p></div> </div>`).append(
-                                    `<div class='col-lg-3'>
-                                        <div class='card'>
-                                            <div class='card-header'>
-                                                <img src='...' alt='Artist image'>
-                                            </div>" 
-                                            <div class='card-body'>
-                                                <a href='#'>Nome: Tizio</a>
-                                            </div>
-                                            <div class='card-footer'>
-                                                <p>Somiglianza: 45%</p>
-                                            </div> 
-                                        </div>`);*/
-    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
+    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
                                  <p>Looking for recommendations...</p>`);
 
     $.ajax({
@@ -75,34 +52,54 @@ function recommend_by_artists() {
                 'accuracy' : type}),
         success : function (result) {
             console.log(result['recommendations']);
-            $("#pane").html("").append(`<hr><h4 style="color: white;">Recommendations based on Izi, Tedua, Ghali</h4><div id='resultsDiv' class='row'>`);
+            display_recommendations(result);
 
-            result['recommendations'].forEach(function (artist) {
-
-                $("#resultsDiv").append(`<div class='col-lg-2'>
-                                            <div class="card" data-aos="zoom-in-up" data-aos-duration="1800">
-                                                        <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Card image' 
-                                                        artistId='`+artist['_id']+`'>
-                                                        <div class='card-footer'>
-                                                            <h4 class='card-title'>`+artist['name']+`</h4>
-                                                        </div>
-                                            </div>
-                                         </div>`);
-
-            });
         }, error: function () {
             console.log("error");
         }
     })
 }
 
-function recommend_by_recently_played () {
+function recommend_by_recently_played (token) {
+    $.ajax({
+        type: 'GET',
+        url: '../track_recommender/',
+        data: {'token' : token},
+        success: function (result) {
+            display_recommendations(result);
+        }, error: function () {
+            console.log("error");
+        }
+    })
 
+}
+
+function recommend_by_tags() {
+    let tags = $("#tags").val();
+    let type = $("input[name='optradio']:checked").val();
+
+
+    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
+                                 <p>Looking for recommendations...</p>`);
+
+    $.ajax({
+        type: 'GET',
+        url: "../tags_recommender/",
+        data: ({'tags' : tags,
+                'accuracy' : type}),
+        success : function (result) {
+            console.log(result['recommendations']);
+            display_recommendations(result);
+
+        }, error: function () {
+            console.log("error");
+        }
+    })
 }
 
 function tags_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di tag separati da virgole</h1>
-                            <input type="text" id="art" class="form-control">
+                            <input type="text" id="tags" class="form-control">
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
@@ -201,11 +198,10 @@ function played_rec() {
                                 <button class='btn' id='loginBtn'><i class="fab fa-spotify"></i> Login with spotify</button>`);
     }
     else {
-        $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954;' role='status'>  <span class='sr-only'>Retrieving data...</span></div>
+        $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 2%;' role='status'>  <span class='sr-only'>Retrieving data...</span></div>
                                  <p>Looking for recommendations...</p>`);
-        /*ajax call to server with Token
-        * display_recommendation(result);*/
         console.log(token);
+        recommend_by_recently_played(token);
          //$("#pane").html("<h1 class='display-4'>Recommendations based on your latest played tracks</h1>");
     }
 
@@ -215,10 +211,30 @@ function played_rec() {
     });
 }
 
-function recommend_by_tags() {
 
-}
+function display_recommendations(result) {
+    if(result['recommendations'][0]['similarity'] !== -1){
+                $("#pane").html("").append(`<hr><h4 class="display-4" style="color: white;">Recommendations based on `
+                +artists +`</h4><div id='resultsDiv' class='row' style="margin: 2% 0 0;">`);
 
-function display_recommendations(recommendations) {
+                result['recommendations'].forEach(function (artist) {
+                    if(artist['similarity'] !== -1){
+                        $("#resultsDiv").append(`<div class='col-lg-2'>
+                                                <div class="card" data-aos="zoom-in-up" data-aos-duration="1800">
+                                                            <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Card image' 
+                                                            artistId='`+artist['_id']+`'>
+                                                            <div class='card-footer'>
+                                                                <h5 class='card-title'>`+artist['name']+`</h5>
+                                                            </div>
+                                                </div>
+                                             </div>`);
+                    }
+                });
+            }
+            else{
+                $("#pane").html("").append(`<hr><div id='resultsDiv' class='row' style="margin: 2% 0 0;">
+                                                            <h4>Non ho trovato nulla che fa al caso tuo, prova a dimunure il grado di 
+                                                            somiglianza o a cambiare lista di artisti</h4>`);
 
+            }
 }
