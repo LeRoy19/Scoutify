@@ -22,8 +22,8 @@ def graph(request):
 
 def get_graph(request):
     if request.is_ajax():
-        name = request.POST.get('name')
-        diameter = request.POST.get('diameter')
+        name = request.GET.get('name')
+        diameter = request.GET.get('diameter')
         graph = create_graph(300, name, int(diameter))
         return JsonResponse({"nodes": graph['data']['nodes'],
                              "links": graph['data']['links']})

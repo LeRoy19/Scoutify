@@ -75,7 +75,8 @@ function recommend_by_recently_played (token) {
 }
 
 function recommend_by_tags() {
-    let tags = $("#tags").val();
+    let tags = $("#in_tags").val();
+    console.log(tags);
     let type = $("input[name='optradio']:checked").val();
 
 
@@ -99,7 +100,7 @@ function recommend_by_tags() {
 
 function tags_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di tag separati da virgole</h1>
-                            <input type="text" id="tags" class="form-control">
+                            <input type="text" id="in_tags" class="form-control">
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
@@ -221,7 +222,7 @@ function display_recommendations(result) {
                     if(artist['similarity'] !== -1){
                         $("#resultsDiv").append(`<div class='col-lg-2'>
                                                 <div class="card" data-aos="zoom-in-up" data-aos-duration="1800">
-                                                            <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Card image' 
+                                                            <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Image not found!' 
                                                             artistId='`+artist['_id']+`'>
                                                             <div class='card-footer'>
                                                                 <h5 class='card-title'>`+artist['name']+`</h5>
@@ -233,7 +234,7 @@ function display_recommendations(result) {
             }
             else{
                 $("#pane").html("").append(`<hr><div id='resultsDiv' class='row' style="margin: 2% 0 0;">
-                                                            <h4>Non ho trovato nulla che fa al caso tuo, prova a dimunure il grado di 
+                                                            <h4 class="display-4">Non ho trovato nulla che fa al caso tuo, prova a dimunure il grado di 
                                                             somiglianza o a cambiare lista di artisti</h4>`);
 
             }

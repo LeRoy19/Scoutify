@@ -3,7 +3,6 @@ import spotipy
 from SpotiGraph.crawler.artist import *
 from pymongo import MongoClient
 from spotipy.oauth2 import SpotifyClientCredentials
-import numpy as np
 
 # credentials
 LAST_KEY = "5f52c83a8ed0440af21be4b5514262ae"
@@ -21,9 +20,6 @@ client_credentials_manager = SpotifyClientCredentials(SPOTIFY_KEY, SPOTIFY_SECRE
 spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 spotify.trace = False
 
-
-# api methods
-# checked!!!
 
 def api_get_artist_by_id(id: str) -> Artist:
     data = spotify.artist(id)
@@ -48,13 +44,11 @@ def api_get_artist_by_id(id: str) -> Artist:
                   image=img, row=-1)
 
 
-# checked!!!
 def api_get_artist_by_name(name: str) -> Artist:
     id = api_get_id(name)
     return api_get_artist_by_id(id)
 
 
-# checked!!!
 def api_get_related(id: str) -> list:
     data = spotify.artist_related_artists(id)
     related = []
@@ -63,7 +57,6 @@ def api_get_related(id: str) -> list:
     return related
 
 
-# checked!!!
 def api_get_id(name: str) -> str:
     data = spotify.search(q=name, limit=10, type='artist')
     index = 0
@@ -95,9 +88,6 @@ def get_recently_played(token, limit: int = None):
     return data
 
 
-# database methods
-
-# checked!!!
 def db_get_artist_by_id(id: str):
     a = db_artists.find_one({"_id": id})
     if a is not None:
@@ -107,9 +97,7 @@ def db_get_artist_by_id(id: str):
         return None
 
 
-# not checked!!!
 def db_insert_artist(artist_id: str, limit: int = None):
-    matrix = np.load(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy")
     number_of_artists = db_artists.count_documents({})
     number_of_tags = db_tags.count_documents({})
     if limit is not None:
@@ -122,49 +110,25 @@ def db_insert_artist(artist_id: str, limit: int = None):
             dic['row'] = number_of_artists
             if db_artists.update_one({'_id': dic['_id']}, {'$setOnInsert': dic}, upsert=True).upserted_id is not None:
                 number_of_artists += 1
-                print("inserted Artist at row", dic['row'])
                 retVal[dic["_id"]] = dic
-                tags_inserted = []
                 for tag in dic['tags']:
                     if db_tags.update_one({'_id': tag},
                                           {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
                                           upsert=True).upserted_id is not None:
-                        tags_inserted.append(number_of_tags)
-                        print("inserted Tags")
                         number_of_tags += 1
-                    else:
-                        to_append = db_tags.find_one({'_id': tag})
-                        tags_inserted.append(to_append['column'])
-
-                new_row = np.zeros(number_of_tags, dtype=int)
-                for column in tags_inserted:
-                    new_row[column] = 1
-                matrix = np.vstack([matrix, new_row])
             inserted += 1
             for x in dic["related"]:
                 to_insert.append(x)
-        np.save(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy", matrix)
         return retVal
     else:
         art = api_get_artist_by_id(artist_id).get_as_dict()
         if db_artists.update_one({'_id': art['_id']}, {'$setOnInsert': art}, upsert=True).upserted_id is not None:
             number_of_artists += 1
-            tags_inserted = []
             for tag in art['tags']:
                 if db_tags.update_one({'_id': tag},
                                       {'$setOnInsert': {'_id': tag, 'column': number_of_tags}},
                                       upsert=True).upserted_id is not None:
-                    tags_inserted.append(number_of_tags)
                     number_of_tags += 1
-                else:
-                    to_append = db_tags.find_one({'_id': tag})
-                    tags_inserted.append(to_append['column'])
-
-            new_row = np.zeros(number_of_tags, dtype=int)
-            for column in tags_inserted:
-                new_row[column] = 1
-            matrix = np.vstack([matrix, new_row])
-            np.save(r"C:\Users\guast\PycharmProjects\Tesi_Spotify\matrix\tags_matrix.npy", matrix)
             return art
         else:
             return None
@@ -185,7 +149,6 @@ def get_tag_column(tag: str) -> int:
     return db_tags.find_one({'_id': tag})['column']
 
 
-# facade methods
 def get_artist_by_id(id: str) -> Artist:
     art = db_get_artist_by_id(id)
     if art is None:
@@ -219,7 +182,6 @@ def get_tags(id: str) -> list:
     return artist.get_tags()
 
 
-# TODO check this function
 def get_all_tags() -> dict:
     data = list(db_tags.find({}))
     ret_val = {}

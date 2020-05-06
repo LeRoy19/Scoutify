@@ -44,6 +44,9 @@ def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) 
             arr = matrix[all_artists[i]['row']]
             in_rows.append(arr)
 
+    if not in_rows:
+        return []
+
     input_tags = logic_or(in_rows)
     similarities = [{'similarity': -1} for i in range(number)]
 
@@ -82,8 +85,14 @@ def recommend_by_tags(tags: list, accuracy: float, number: int = None) -> list:
 
     similarities = [{'similarity': -1} for i in range(number)]
     input_tags = np.zeros(number_of_tags, dtype=bool)
+    checked = False
     for tag in tags:
-        input_tags[all_tags[tag]['column']] = 1
+        if tag in all_tags.keys():
+            input_tags[all_tags[tag]['column']] = 1
+            checked = True
+
+    if not checked:
+        return []
 
     for i in all_artists:
         similarity = cosine(input_tags, matrix[all_artists[i]['row']])
@@ -96,6 +105,8 @@ def recommend_by_tags(tags: list, accuracy: float, number: int = None) -> list:
                     val['similarity'] = similarity
                     similarities.append(val)
                     break
+    if max(similarities, key=lambda x: x['similarity']) == -1:
+        similarities = []
     return similarities
 
 

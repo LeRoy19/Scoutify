@@ -61,7 +61,7 @@ p{
 #main{
 }
 
-#art{
+#art, #in_tags{
     background-color: transparent;
     border: 1px solid white;
     color: white;
