@@ -91,8 +91,8 @@ function render_top_artists(client, country){
                                                                   <p>Followers: `+followers+`</p>
                                                                   <p>Popularity: `+popularity+`</p>
                                                                   <p>Genres: `+genres+`</p>
-                                                                  <button style="margin-bottom: 6%;" class="btn open" onclick="change_album('` + artist +`',false)"><i class="fab fa-spotify"></i> Listen last album</button>
-                                                                  <button class="btn open" onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                                  <button style="margin: 1%;" class="btn open" onclick="change_album('` + artist +`',false)"><i class="fab fa-spotify"></i> Listen last album</button>
+                                                                  <button style="margin: 1%;" class="btn open" onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
                                                             </div>
                                                         
                                                         </div>

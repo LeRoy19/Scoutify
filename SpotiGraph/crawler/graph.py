@@ -23,25 +23,30 @@ def create_graph(max_nodes: int, name: str, max_diameter: int = None) -> dict:
         for y in art.get_related():
             if y not in inserted:
                 rel = get_artist_by_id(y)
-                g.add_node(actual)
+                g.add_node(y)
                 inserted.append(y)
                 data['nodes'][y] = {'name': rel.get_name(), 'genres': rel.get_genres(), 'image': rel.get_image()}
                 to_link.append(y)
             if not g.has_edge(y, actual):
                 g.add_edge(actual, y)
-                if max_shortest_path(start, g) > max_diameter:
+                if shortest_path(g, start, y) > max_diameter:
+
+                    #calcolo i path
+                    for node in g.nodes:
+                        path = shortest_path(g, start, node)
+                        data['nodes'][node]['path'] = path
                     g.remove_edge(actual, y)
                     return {'graph': g, 'data': data}
                 data['links'].append({'source': actual, 'target': y})
 
+    for node in g.nodes:
+        path = shortest_path(g, start, node)
+        data['nodes'][node]['path'] = path
     return {'graph': g, 'data': data}
 
 
-def max_shortest_path(start: str, g: nx.Graph) -> int:
-    max_path = 0
-    for n in g.nodes:
-        if n != start:
-            path = nx.shortest_path_length(g, start, n)
-            if path > max_path:
-                max_path = path
-    return max_path
+def shortest_path(g: nx.Graph, start, end) -> int:
+    path = nx.shortest_path_length(g, start, end)
+    return path
+
+

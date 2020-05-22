@@ -11,38 +11,50 @@
 <body>
 <script>renderNav('graph')</script>
     <div id="main">
-        <div id="pane">
-            <h1 class="display-4">Insert the name of the artist you want to render</h1>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
+        <div id="pane" class="row">
+
+            <div class="col-lg-3" id="sidebar">
+
+                <h4>Insert the artist's name</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="art" class="form-control">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="render"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" style="color: white; background-color: #1DB954" for="type">Distance</label>
+                    </div>
                     <select class="custom-select" id="type">
-                        <option selected>Chose distance...</option>
-                        <option value='1'>1</option>
+                        <option selected>1</option>
                         <option value='2'>2</option>
                         <option value='3'>3</option>
                         <option value='4'>4</option>
                         <option value='5'>5</option>
                     </select>
                 </div>
-                <div class="custom-file">
-                    <input type="text" id="art" class="form-control">
+
+                <div class="card" id="artistCard" style="height: 60%; background-color: #191414;">
+
                 </div>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="render"><i class="fas fa-search"></i></button>
-                </div>
+
+                <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+            </div>
+            <div class="col-lg-9" id="graphDiv">
+                <script src="//d3js.org/d3.v3.min.js"></script>
+                <script>drawPresentation();</script>
             </div>
 
+
         </div>
-        <script src="//d3js.org/d3.v3.min.js"></script>
-        <script>drawPresentation();</script>
-        <div id="graphDiv"></div>
-
-
     </div>
-    <footer class="page-footer" style="text-align: center">
-            <iframe id='player' src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width='500' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    </footer>
-{% include 'sidenav.html' %}
+
+
+
+
+
 
 </body>
 </html>

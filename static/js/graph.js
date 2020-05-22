@@ -11,7 +11,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (result) {
-                $("#graphDiv").html("").css("padding", "0");
+                $("#graphDiv").html("");
                 drawArtistsGraph(result["links"], result["nodes"], name);
             },
             error: function (jqXHR) {
@@ -26,6 +26,7 @@ $(document).ready(function () {
 
 
 function drawPresentation() {
+
     var nodes = {};
     var links = [
         {source: 1, target: 2},
@@ -43,9 +44,9 @@ function drawPresentation() {
             link.source = nodes[link.source] || (nodes[link.source] = {name: link.source, color: getRandomColor()});
             link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, color: getRandomColor()});
     });
-    var mainW = $("#main").width();
-    var width = mainW-(mainW*0.033);
-    var height = 700;
+    var width = $("#graphDiv").width();
+    var height = $("#pane").height();
+
 
     var force = d3.layout.force()
         .nodes(d3.values(nodes))
@@ -56,22 +57,16 @@ function drawPresentation() {
         .on("tick", tick)
         .start();
 
-    var svg = d3.select("#main").append("svg")
+    var svg = d3.select("#graphDiv").append("svg")
         .attr("width", width)
-        .attr("height", height)
-        .attr("style", "border:3px solid #1DB954; margin: 1%; border-radius:10px; background-color: #d0d0d0;");
+        .attr("height", height);
 
     var link = svg.selectAll(".link")
         .data(force.links())
         .enter().append("line")
         .attr("class", "link")
-        .style("stroke", "#666");
+        .style("stroke", "white");
 
-
-    var tooltip = d3.select("body")
-        .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
 
     var node = svg.selectAll(".node")
         .data(force.nodes())
@@ -111,6 +106,8 @@ function drawPresentation() {
             });
     }
 
+
+
 }
 
 function getRandomColor() {
@@ -132,8 +129,8 @@ function drawArtistsGraph(links, Nodes, name){
             link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, color: getRandomColor()});
     });
 
-    let width = $("#graphDiv").width()-3;
-    let height = 500;
+    var width = $("#graphDiv").width();
+    var height = $("#pane").height();
 
     var force = d3.layout.force()
         .nodes(d3.values(nodes))
@@ -149,19 +146,41 @@ function drawArtistsGraph(links, Nodes, name){
     var svg = d3.select("#graphDiv").append("svg")
         .attr("id", "artistsGraph")
         .attr("width", width)
-        .attr("height", height)
-        .attr("style", "border:1px solid black; border-radius:10px; border-color: #666666; background-color: #F2F3F4;");
+        .attr("height", height);
+
+    svg.append("text").attr("x", 10).attr("y", 10).text("Distances:")
+        .style("font-size", "15px").style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 6).style("fill", "red");
+    svg.append("circle").attr("cx",20).attr("cy",60).attr("r", 6).style("fill", '#7CFC00');
+    svg.append("circle").attr("cx",20).attr("cy",90).attr("r", 6).style("fill", '#32CD32');
+    svg.append("circle").attr("cx",20).attr("cy",120).attr("r", 6).style("fill", '#228B22');
+    svg.append("circle").attr("cx",20).attr("cy",150).attr("r", 6).style("fill", '#006400');
+    svg.append("circle").attr("cx",20).attr("cy",180).attr("r", 6).style("fill", '#003319');
+    svg.append("text").attr("x", 30).attr("y", 30).text("0").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 30).attr("y", 60).text("1").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 30).attr("y", 90).text("2").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 30).attr("y", 120).text("3").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 30).attr("y", 150).text("4").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
+    svg.append("text").attr("x", 30).attr("y", 180).text("5").style("font-size", "15px")
+        .style("fill", "white").attr("alignment-baseline","middle");
 
     var link = svg.selectAll(".link")
         .data(force.links())
         .enter().append("line")
         .attr("class", "link")
-        .style("stroke", "#666");
+        .style("stroke", "white");
 
-    var tooltip = d3.select("body")
+    /*var tooltip = d3.select("body")
         .append("div")
         .attr("class", "tooltip")
-        .style("opacity", 0);
+        .style("opacity", 0);*/
+
+
 
     var node = svg.selectAll(".node")
         .data(force.nodes())
@@ -171,13 +190,13 @@ function drawArtistsGraph(links, Nodes, name){
         .on("mouseover.fade", fade(0.1))
         .on("mouseout", mouseout)
         .on("mouseout.fade", fade(1))
-        .on("dblclick", redirect)
-        .on("click", playTrack)
-        .style("fill", getRandomColor)
+        .on("click", show_info)
+        .style("fill", get_color)
         .call(force.drag);
 
     node.append("circle")
         .attr("r", 5);
+
 
 
     function tick() {
@@ -219,41 +238,15 @@ function drawArtistsGraph(links, Nodes, name){
         tooltip.transition()
         	.duration(100)
         	.style("opacity", 1);
-
-        var img = Nodes[d.name].image;
-        var name = Nodes[d.name].name
-        var gen = ""
-        Nodes[d.name].genres.forEach(element => gen += element + ", ");
-        gen = gen.slice(0, -2);
-
-
-        if ($("#ArtistSideBar").html() !== " "){
-            $("#ArtistSideBar").html(
-            "<img src= '"+ img +" ' class='rounded-circle mx-auto d-block' alt='"+d.name+"' width='70' id='image'>" +
-                    "<h5 style='color: #1DB954; margin-top: 3%;'>Name:&nbsp;</h5>" +
-                    "<h5 style='color: lightgrey' id='name'>"+name+"</h5>" +
-                    "<h5 style='color: #1DB954;'>Genres:&nbsp;</h5>" +
-                    "<h5 style='color: lightgrey' id='name'>"+gen+"</h5>");
-
-        }else{
-            $("#image").attr("src",img);;
-            $("#name").text(name);
-            $("#genres").text(gen);
-        }
-
-
     }
 
 
-    function mouseout() {
-        tooltip.transition()
-            .duration(100)
-            .style("opacity", 0);
+    function mouseout(d) {
         d3.select(this).select("text").style("opacity", 0);
         d3.select(this).select("circle").transition()
             .duration(100)
             .attr("r", 5);
-        link.style('stroke', '#666');
+        link.style('stroke', 'white');
     }
 
     function fade(opacity) {
@@ -269,14 +262,40 @@ function drawArtistsGraph(links, Nodes, name){
         };
     }
 
-    function redirect(d) {
-        window.open(Nodes[d.name].url);
-        return false
+    function get_color(d) {
+        var path = Nodes[d.name].path;
+        var color = ['#FF0000', '#7CFC00', '#32CD32', '#228B22', '#006400' , '#003319'];
+        return color[path]
     }
 
-    function playTrack(d) {
+
+
+    function show_info(d) {
+
+        var img = Nodes[d.name].image;
+        var name = Nodes[d.name].name
+        var gen = ""
+        var url = "https://open.spotify.com/artist/" + d;
+        Nodes[d.name].genres.forEach(element => gen += element + ", ");
+        gen = gen.slice(0, -2);
+
+
+        if ($("#artistCard").html() !== " "){
+            $("#artistCard").html(
+            `<img src= '`+ img +` ' class='rounded mx-auto d-block' alt='`+d.name+`' width='45%' id='image' style='margin-top: 3%;'>
+                     <h5 style='color: #1DB954; margin-top: 3%;'>Name:&nbsp;</h5>
+                     <h5 style='color: lightgrey' id='name'>`+name+`</h5>
+                     <h5 style='color: #1DB954;'>Genres:&nbsp;</h5>
+                     <h5 style='color: lightgrey' id='name'>`+gen+`</h5>
+                     <button style="margin: 1%;" class="btn open" onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>`);
+        }else{
+            $("#image").attr("src",img);;
+            $("#name").text(name);
+            $("#genres").text(gen);
+        }
+
         artId = d.name;
-        console.log(artId);
+
         $.ajax({
             type: 'GET',
             data: {'id' : artId},
@@ -291,4 +310,10 @@ function drawArtistsGraph(links, Nodes, name){
 
     }
 
+}
+
+
+
+function open_on_spotify(url) {
+    window.open(url,"_blank");
 }
