@@ -10,16 +10,40 @@
 </head>
 <body>
 <script>renderNav('graph')</script>
-    <div id="main">
-        <div id="pane" class="row">
+    {% if request.artist %}
+        <script>
+            render_graph("{{ request.artist }}");
+        </script>
+    {% endif %}
 
-            <div class="col-lg-3" id="sidebar">
+    <div id="main">
+        <h1 class="font-weight-light" style="margin-top: 2%;">To get started, enter the name of an artist and the radius of the graph!</h1>
+        <div class="input-group mb-3" style="padding: 2%;">
+            <div class="input-group-prepend">
+                <label class="input-group-text" style="color: white; background-color: #1DB954" for="type">Radius</label>
+                <select class="custom-select" id="type" style="border-color: #1DB954;">
+                <option selected>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+            </select>
+            </div>
+
+            <input type="text" id="art" class="form-control">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="render" onclick="render_graph(null);"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+
+           <!-- <div class="col-lg-3" id="sidebar">
 
                 <h4>Insert the artist's name</h4>
                 <div class="input-group mb-3">
                     <input type="text" id="art" class="form-control">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="render"><i class="fas fa-search"></i></button>
+                        <button class="btn btn-outline-secondary" type="button" id="render" onclick="render_graph(null);"><i class="fas fa-search"></i></button>
                     </div>
                 </div>
                 <div class="input-group mb-3">
@@ -35,17 +59,15 @@
                     </select>
                 </div>
 
-                <div class="card" id="artistCard" style="height: 60%; background-color: #191414;">
+                <div class="card" id="artistCard"></div>
 
-                </div>
-
-                <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='400' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
 
             </div>
             <div class="col-lg-9" id="graphDiv">
                 <script src="//d3js.org/d3.v3.min.js"></script>
                 <script>drawPresentation();</script>
-            </div>
+            </div> -->
 
 
         </div>

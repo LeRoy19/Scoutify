@@ -97,7 +97,15 @@ h5{
     border-radius: 30px;
 }
 
+p {
+    color: white;
+}
 
+#artistCard {
+    /*height: 60%;*/
+    background-color: transparent;
+    border: 0;
+}
 
 
 

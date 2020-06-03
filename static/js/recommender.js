@@ -51,11 +51,10 @@ function recommend_by_artists() {
         data: ({'artists' : artists,
                 'accuracy' : type}),
         success : function (result) {
-            console.log(result['recommendations']);
-            display_recommendations(result);
+            display_recommendations(result, result['searched']);
 
         }, error: function () {
-            console.log("error");
+            console.log("error"); //TODO adjust
         }
     })
 }
@@ -66,9 +65,9 @@ function recommend_by_recently_played (token) {
         url: '../track_recommender/',
         data: {'token' : token},
         success: function (result) {
-            display_recommendations(result);
+            display_recommendations(result, "last played");
         }, error: function () {
-            console.log("error");
+            console.log("error"); //TODO adjust
         }
     })
 
@@ -90,10 +89,10 @@ function recommend_by_tags() {
                 'accuracy' : type}),
         success : function (result) {
             console.log(result['recommendations']);
-            display_recommendations(result);
+            display_recommendations(result, result['searched']);
 
         }, error: function () {
-            console.log("error");
+            console.log("error"); //TODO adjust
         }
     })
 }
@@ -101,20 +100,21 @@ function recommend_by_tags() {
 function tags_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di tag separati da virgole</h1>
                             <input type="text" id="in_tags" class="form-control">
+                            <small id="Help" class="form-text" style="color: white; text-align: left;">Eg: Hip-Hop, Pop, Rap &nbsp;&nbsp;&nbsp;  We recommend to insert al least 10-15 tags!</small>
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
-                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.2">Somiglianza scarsa
+                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.1">Somiglianza scarsa
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio2">
-                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.35" checked>Somiglianza media
+                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.2" checked>Somiglianza media
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio3">
-                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.5">Somiglianza forte
+                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.3">Somiglianza forte
                                   </label>
                                 </div>
                             </div>
@@ -131,21 +131,23 @@ function tags_rec() {
 
 function artists_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di artisti separati da virgole</h1>
+                            
                             <input type="text" id="art" class="form-control">
+                            <small id="Help" class="form-text" style="color: white; text-align: left;">Eg: Ed Sheeran, Rihanna, Shakira</small>
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
-                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.2">Somiglianza scarsa
+                                    <input type="radio" class="form-check-input" id="radio1" name="optradio" value="0.1">Somiglianza scarsa
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio2">
-                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.35" checked>Somiglianza media
+                                    <input type="radio" class="form-check-input" id="radio2" name="optradio" value="0.2" checked>Somiglianza media
                                   </label>
                                 </div>
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio3">
-                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.5">Somiglianza forte
+                                    <input type="radio" class="form-check-input" id="radio3" name="optradio" value="0.3">Somiglianza forte
                                   </label>
                                 </div>
                             </div>
@@ -201,9 +203,7 @@ function played_rec() {
     else {
         $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 2%;' role='status'>  <span class='sr-only'>Retrieving data...</span></div>
                                  <p>Looking for recommendations...</p>`);
-        console.log(token);
         recommend_by_recently_played(token);
-         //$("#pane").html("<h1 class='display-4'>Recommendations based on your latest played tracks</h1>");
     }
 
 
@@ -213,22 +213,44 @@ function played_rec() {
 }
 
 
-function display_recommendations(result) {
+function display_recommendations(result, searched) {
+
+    let artists = "";
+    if (searched === "last played"){
+        artists = "your last played tracks";
+    }
+    else {
+        searched.forEach(function (artist) {
+            artists += artist + ", "
+        });
+        artists = artists.substr(0, artists.length - 2);
+    }
+
+
     if(result['recommendations'][0]['similarity'] !== -1){
                 $("#pane").html("").append(`<hr><h4 class="display-4" style="color: white;">Recommendations based on `
-                +artists +`</h4><div id='resultsDiv' class='row' style="margin: 2% 0 0;">`);
+                +artists +`</h4><div id='resultsDiv' class='row'></div>`);
 
                 result['recommendations'].forEach(function (artist) {
                     if(artist['similarity'] !== -1){
                         $("#resultsDiv").append(`<div class='col-lg-2'>
-                                                <div class="card" data-aos="zoom-in-up" data-aos-duration="1800">
-                                                            <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Image not found!' 
-                                                            artistId='`+artist['_id']+`'>
-                                                            <div class='card-footer'>
-                                                                <h5 class='card-title'>`+artist['name']+`</h5>
+                                                    <div class="flip-card card">
+                                                        <div class='flip-card-inner'>
+                                                            <div class="flip-card-front">
+                                                                <img class='card-img-top img-fluid' src='`+artist['image']+`' alt='Image not found!' 
+                                                                    artistId='`+artist['_id']+`'>
+                                                                <div class='card-footer'>
+                                                                    <h5 class='card-title'>`+artist['name']+`</h5>
+                                                                </div>
                                                             </div>
-                                                </div>
-                                             </div>`);
+                                                            <div class="flip-card-back">
+                                                                  <h3 class='card-title' style="margin-top: 6%;">`+artist['name']+`</h3>
+                                                                  <button style="margin: 1%;" class="btn open" onclick="see_graph('`+artist['name'] +`')"><i class="fab fa-spotify"></i> See artist's graph</button>
+                                                                  <button style="margin: 3% 1% 1%;" class="btn open" onclick="open_on_spotify('` + artist['url'] +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`);
                     }
                 });
             }
@@ -236,6 +258,13 @@ function display_recommendations(result) {
                 $("#pane").html("").append(`<hr><div id='resultsDiv' class='row' style="margin: 2% 0 0;">
                                                             <h4 class="display-4">Non ho trovato nulla che fa al caso tuo, prova a dimunure il grado di 
                                                             somiglianza o a cambiare lista di artisti</h4>`);
-
             }
+}
+
+function open_on_spotify(url) {
+    window.open(url,"_blank");
+}
+
+function see_graph(artist) {
+    window.open("/graph/?artist=" + artist);
 }

@@ -17,6 +17,9 @@ def recommender(request):
 
 
 def graph(request):
+    if request.GET.get('artist'):
+        print(request.GET.get('artist'))
+        request.__setattr__('artist', request.GET.get('artist'))
     return render(request, 'graph.html')
 
 
@@ -24,9 +27,10 @@ def get_graph(request):
     if request.is_ajax():
         name = request.GET.get('name')
         diameter = request.GET.get('diameter')
-        graph = create_graph(300, name, int(diameter))
+        graph = create_graph(500, name, int(diameter))
         return JsonResponse({"nodes": graph['data']['nodes'],
-                             "links": graph['data']['links']})
+                             "links": graph['data']['links'],
+                             "id": graph['data']['id']})
 
 
 def authentication(request):
@@ -54,7 +58,7 @@ def art_recommender(request):
         for name in artists_names:
             artist.append(crawler.api_get_id(name))
         recommendations = rec_sys.recommend_by_artists(artist, float(request.GET.get('accuracy')))
-        return JsonResponse({'recommendations': recommendations})
+        return JsonResponse({'recommendations': recommendations, 'searched': artists_names})
 
 
 def get_last_album(request):
@@ -72,4 +76,4 @@ def tags_recommender(request):
         tags = request.GET.get('tags')
         tags = tags.split(', ')
         recommendations = rec_sys.recommend_by_tags(tags, float(request.GET.get('accuracy')))
-        return JsonResponse({'recommendations': recommendations})
+        return JsonResponse({'recommendations': recommendations, 'searched': tags})

@@ -7,9 +7,11 @@ def create_graph(max_nodes: int, name: str, max_diameter: int = None) -> dict:
     if max_diameter is None:
         max_diameter = 4
     g = nx.Graph()
-    data = {'nodes': {},
-            'links': []}
+
     start = api_get_id(name)
+    data = {'nodes': {},
+            'links': [],
+            'id': start}
     to_link = [start]
     inserted = []
     global y

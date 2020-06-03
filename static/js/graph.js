@@ -1,8 +1,13 @@
-$(document).ready(function () {
-    $("#render").click(function () {
-        var name = $("#art").val();
-        var diameter = 3;
-        $.ajax({
+
+function render_graph(name) {
+    $("#graphDiv").html(`<div class='spinner-grow'  style='color: #1DB954; margin-top: 40%;' role='status'>  <span class='sr-only'>Retrieving data...</span></div>
+                                 <p>Please wait...</p>`);
+    let diameter = 3;
+    if(name===null){
+        name = $("#art").val();
+        diameter = $("#type").val();
+    }
+    $.ajax({
             type: 'GET',
             url: '/get_graph/',
             data: {
@@ -11,18 +16,17 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (result) {
+                $("#artistCard").css("height", "60%");
+                $("#player").attr("height", "80");
+
                 $("#graphDiv").html("");
-                drawArtistsGraph(result["links"], result["nodes"], name);
+                drawArtistsGraph(result["links"], result["nodes"], name, result["id"]);
             },
             error: function (jqXHR) {
-                console.log("error");
+                showError(jqXHR);
             }
         });
-
-    });
-
-
-});
+}
 
 
 function drawPresentation() {
@@ -119,7 +123,7 @@ function getRandomColor() {
       return color;
 }
 
-function drawArtistsGraph(links, Nodes, name){
+function drawArtistsGraph(links, Nodes, name, id){
     let nodes = {};
 
     $("#artistsGraph").remove();
@@ -180,8 +184,6 @@ function drawArtistsGraph(links, Nodes, name){
         .attr("class", "tooltip")
         .style("opacity", 0);*/
 
-
-
     var node = svg.selectAll(".node")
         .data(force.nodes())
         .enter().append("g")
@@ -190,7 +192,7 @@ function drawArtistsGraph(links, Nodes, name){
         .on("mouseover.fade", fade(0.1))
         .on("mouseout", mouseout)
         .on("mouseout.fade", fade(1))
-        .on("click", show_info)
+        .on("mouseover", show_info)
         .style("fill", get_color)
         .call(force.drag);
 
@@ -198,6 +200,7 @@ function drawArtistsGraph(links, Nodes, name){
         .attr("r", 5);
 
 
+    first_info(id);
 
     function tick() {
         link
@@ -235,9 +238,6 @@ function drawArtistsGraph(links, Nodes, name){
             .duration(100)
             .attr("r", 10);
         d3.select(this).style("show", "true");
-        tooltip.transition()
-        	.duration(100)
-        	.style("opacity", 1);
     }
 
 
@@ -271,28 +271,17 @@ function drawArtistsGraph(links, Nodes, name){
 
 
     function show_info(d) {
-
         var img = Nodes[d.name].image;
         var name = Nodes[d.name].name
         var gen = ""
-        var url = "https://open.spotify.com/artist/" + d;
+        var url = "open_on_spotify('https://open.spotify.com/artist/" + d.name + "');";
         Nodes[d.name].genres.forEach(element => gen += element + ", ");
         gen = gen.slice(0, -2);
 
-
-        if ($("#artistCard").html() !== " "){
-            $("#artistCard").html(
-            `<img src= '`+ img +` ' class='rounded mx-auto d-block' alt='`+d.name+`' width='45%' id='image' style='margin-top: 3%;'>
-                     <h5 style='color: #1DB954; margin-top: 3%;'>Name:&nbsp;</h5>
-                     <h5 style='color: lightgrey' id='name'>`+name+`</h5>
-                     <h5 style='color: #1DB954;'>Genres:&nbsp;</h5>
-                     <h5 style='color: lightgrey' id='name'>`+gen+`</h5>
-                     <button style="margin: 1%;" class="btn open" onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>`);
-        }else{
-            $("#image").attr("src",img);;
-            $("#name").text(name);
-            $("#genres").text(gen);
-        }
+        $("#image").attr("src",img);;
+        $("#name").text(name);
+        $("#genres").text(gen);
+        $("#open").attr("onclick", url);
 
         artId = d.name;
 
@@ -310,6 +299,39 @@ function drawArtistsGraph(links, Nodes, name){
 
     }
 
+
+    function first_info(id) {
+        var img = Nodes[id].image;
+        var name = Nodes[id].name
+        var gen = ""
+        var url = "https://open.spotify.com/artist/" + id;
+        Nodes[id].genres.forEach(element => gen += element + ", ");
+        gen = gen.slice(0, -2);
+
+        $("#artistCard").html(
+        `<img src= '`+ img +` ' class='rounded mx-auto d-block' alt='`+id+`' width='45%' id='image' style='margin-top: 3%;'>
+                 <h5 style='color: #1DB954; margin-top: 3%;'>Name:&nbsp;</h5>
+                 <h5 style='color: lightgrey' id='name'>`+name+`</h5>
+                 <h5 style='color: #1DB954;'>Genres:&nbsp;</h5>
+                 <h5 style='color: lightgrey' id='name'>`+gen+`</h5>
+                 <button style="margin: 1%;" class="btn open" id='open' onclick="open_on_spotify('` + url +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>`);
+
+
+        $.ajax({
+            type: 'GET',
+            data: {'id' : id},
+            url: '/get_last_album/',
+            success: function (result) {
+                $("#player").attr('src', result['url']);
+            },
+            error: function (jqXHR) {
+                showError(jqXHR);
+            }
+        });
+
+    }
+
+
 }
 
 
@@ -317,3 +339,12 @@ function drawArtistsGraph(links, Nodes, name){
 function open_on_spotify(url) {
     window.open(url,"_blank");
 }
+
+function showError(jqXHR) {
+    $("#graphDiv").html("");
+    $("#graphDiv").append("<div id='error'>");
+    $("#error").append("<i class=\"far fa-7x fa-sad-tear\"></i>").css("text-align", "center").css("margin-top", "5%")
+        .append("<h1>Error "+jqXHR.status+"...").append("<h1>Ops something goes wrong, please retry!");
+}
+
+
