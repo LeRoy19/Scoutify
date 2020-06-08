@@ -154,12 +154,12 @@ function drawArtistsGraph(links, Nodes, name, id){
 
     svg.append("text").attr("x", 10).attr("y", 10).text("Distances:")
         .style("font-size", "15px").style("fill", "white").attr("alignment-baseline","middle");
-    svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 6).style("fill", "red");
-    svg.append("circle").attr("cx",20).attr("cy",60).attr("r", 6).style("fill", '#7CFC00');
-    svg.append("circle").attr("cx",20).attr("cy",90).attr("r", 6).style("fill", '#32CD32');
-    svg.append("circle").attr("cx",20).attr("cy",120).attr("r", 6).style("fill", '#228B22');
-    svg.append("circle").attr("cx",20).attr("cy",150).attr("r", 6).style("fill", '#006400');
-    svg.append("circle").attr("cx",20).attr("cy",180).attr("r", 6).style("fill", '#003319');
+    svg.append("circle").attr("cx",20).attr("cy",30).attr("r", 6).style("fill", "#FF0000");
+    svg.append("circle").attr("cx",20).attr("cy",60).attr("r", 6).style("fill", '#7c9ecc');
+    svg.append("circle").attr("cx",20).attr("cy",90).attr("r", 6).style("fill", '#2271b3');
+    svg.append("circle").attr("cx",20).attr("cy",120).attr("r", 6).style("fill", '#214b74');
+    svg.append("circle").attr("cx",20).attr("cy",150).attr("r", 6).style("fill", '#18273a');
+    svg.append("circle").attr("cx",20).attr("cy",180).attr("r", 6).style("fill", '#111720');
     svg.append("text").attr("x", 30).attr("y", 30).text("0").style("font-size", "15px")
         .style("fill", "white").attr("alignment-baseline","middle");
     svg.append("text").attr("x", 30).attr("y", 60).text("1").style("font-size", "15px")
@@ -242,7 +242,6 @@ function drawArtistsGraph(links, Nodes, name, id){
 
 
     function mouseout(d) {
-        d3.select(this).select("text").style("opacity", 0);
         d3.select(this).select("circle").transition()
             .duration(100)
             .attr("r", 5);
@@ -258,13 +257,12 @@ function drawArtistsGraph(links, Nodes, name, id){
             });
 
             link.style('stroke-opacity', o => (o.source === d || o.target === d ? 1 : opacity));
-
         };
     }
 
     function get_color(d) {
         var path = Nodes[d.name].path;
-        var color = ['#FF0000', '#7CFC00', '#32CD32', '#228B22', '#006400' , '#003319'];
+        var color = ['#FF0000', '#7c9ecc', '#2271b3', '#214b74', '#18273a' , '#111720'];
         return color[path]
     }
 

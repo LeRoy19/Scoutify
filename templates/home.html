@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>SpotiGraph</title>
+    <title>Spotigraph</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {% include 'include.html' %}
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -13,54 +13,57 @@
 
 </head>
 <body>
-{% csrf_token %}
 
     <div id="main">
-
         <script>renderNav('home')</script>
-
         <div id="pane">
-                <div class="row" style="margin: 0;">
-                    <h1 id='TopArtists' class="display-4">Top Artists Global</h1>
-                    <div class="dropdown dropright show" style="margin: 1.5%;">
-                          <a style="background-color: #1DB954;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Change country
-                          </a>
+            <div class="row" id="Intro" style="margin: 0">
+                <h4 style="margin-top: 2%;">Qui ci va una piccola intro sul sito</h4>
+            </div>
+            <div data-aos="fade-right" data-aos-duration="700" data-aos-once="false" data-aos-easing="linear" id="explore">
+                <a href="/explore" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Esplora</a>
+                <p style="margin-top: 3%">
+                    Esplora è un'area in cui puoi scoprire gli artisti più ascoltati al momento nei vari paesi del mondo
+                ricavati dalle top 50 chart di spotify</p>
+                <p>Gli artisti sono accompagnati da alcune loro info come popolarità, numero di followers e generi musicali</p>
+                <p>È anche possibile ascoltare il suo ultimo album di successo premendo l'apposito bottone e scorrendo
+                le canzoni tramite il player di Spotify* posto alla fine della pagina</p>
+                <p style="color: #1DB954; font-size: 0.7rem;">*Non è necessario possedere un account Spotify per riprodurre
+                gli album!</p>
 
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Global');">Global</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Italy');">Italy</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'USA');">Usa</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'United Kingdom');">United Kingdom</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Spain');">Spain</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Germany');">Germany</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Australia');">Australia</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'France');">France</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Ireland');">Ireland</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Belgium');">Belgium</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Portugal');">Portugal</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Canada');">Canada</button>
-                              <button class="dropdown-item" type="button" onclick="render_top_artists({{ request.client }}, 'Mexico');">Mexico</button>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-        <script type="text/javascript">
-            var token = {{ request.client|safe }}
-                render_top_artists(token, 'Global');
-        </script>
-                <div id="artistsDiv" class="row" ></div>
-                <div id="playerDiv">
-                    <iframe id='player' src="" width='550' height='80' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-                </div>
+            </div>
+            <div data-aos="fade-left" data-aos-duration="700" data-aos-easing="linear" id="graph">
+                <a href="/graph" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Grafo</a>
+                <p style="margin-top: 3%">
+                    Grafo è una pagina in cui puoi visualizzare ed analizzare un grafo di uno specifico artista.
+                    In particolare è possibile analizzare i nodi direttamente collegati a lui oppure nodi che non sono
+                    direttamente collegati ma che hanno una qualche forma di correlazione.
+                </p>
+                <p>Anche in questa pagina è possibile visualizzare le infomazioni dei nodi (o artisti) semplicemente
+                passandoci su con il puntatore del mouse, ed ascoltare il suo ultimo album di successo, oppure visualizzare
+                    la pagina dell'artista direttamente su Spotify.</p>
+            </div>
 
+
+           <div data-aos="fade-right" data-aos-duration="700" data-aos-easing="linear" id="suggerisci">
+                <a href="/recommender" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Suggerisci</a>
+                <p style="margin-top: 3%">
+                    Suggerisci è una pagina in cui un algoritmo di intelligenza artificiale basato su dei tag, può suggerire
+                    ulcuni artisti da ascoltare in base ad un set di informazioni inizali come ultime tracce ascoltate,
+                    una lista di artisti o una lista di tag.
+                </p>
+                <p>Una volta mostrati i risultati, tramite gli appositi bottoni è possibile visualizzare la pagina dell'artista
+                    su Spotify, oppure visualizzare il grafo dell'artista scelto nell'apposita pagina.
+                </p>
+            </div>
+
+
+
+
+        </div>
     </div>
 
-
-
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-      <script>
-        AOS.init();
-      </script>
+    <script>AOS.init();</script>
 </body>
 </html>

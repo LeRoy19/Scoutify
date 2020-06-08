@@ -16,10 +16,21 @@
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink navLinkActive nav-link\" href=\"/home\">Home</a>\n" +
-        "            <a class=\"navLink nav-link\" href=\"/graph\" >Graph</a>\n" +
-        "            <a class=\"navLink nav-link\" href=\"/recommender\">Recommender</a>\n" +
-        "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
+            "            <a class=\"navLink nav-link\" href=\"/explore\">Esplora</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/graph\" >Grafo</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/recommender\">Suggerisci</a>\n" +
         "        </nav>\n" )
+    }
+    else if(active === 'explore'){
+        $("#main").html("<nav class=\"navbar\">\n" +
+        "            <a class=\"navbar-brand\" href=\"/home\">\n" +
+        "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
+        "            </a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/home\">Home</a>\n" +
+            "            <a class=\"navLink navLinkActive nav-link\" href=\"/explore\">Esplora</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/graph\" >Grafo</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/recommender\">Suggerisci</a>\n" +
+        "        </nav>\n")
     }
     else if(active === 'graph'){
         $("body").html("<nav class=\"navbar\">\n" +
@@ -27,9 +38,9 @@
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/home\">Home</a>\n" +
-        "            <a class=\"navLink navLinkActive nav-link\" href=\"/graph\" >Graph</a>\n" +
-        "            <a class=\"navLink nav-link\" href=\"/recommender\">Recommender</a>\n" +
-        "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
+                "            <a class=\"navLink nav-link\" href=\"/explore\">Esplora</a>\n" +
+        "            <a class=\"navLink navLinkActive nav-link\" href=\"/graph\" >Grafo</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/recommender\">Suggerisci</a>\n" +
         "        </nav>\n")
     }
     else if(active === 'recommender'){
@@ -38,9 +49,9 @@
         "              <img alt=\"Brand\" src=\"{% static 'img/Logo.png' %}\">\n" +
         "            </a>\n" +
         "            <a class=\"navLink nav-link\" href=\"/home\">Home</a>\n" +
-        "            <a class=\"navLink nav-link\" href=\"/graph\" >Graph</a>\n" +
-        "            <a class=\"navLink navLinkActive nav-link\" href=\"/recommender\">Recommender</a>\n" +
-        "            <button class=\"btn navBtn\" id=\"navBtn\"><i class=\"fa fa-2x fa-bars\"></i></button>\n" +
+                "            <a class=\"navLink nav-link\" href=\"/explore\">Esplora</a>\n" +
+        "            <a class=\"navLink nav-link\" href=\"/graph\" >Grafo</a>\n" +
+        "            <a class=\"navLink navLinkActive nav-link\" href=\"/recommender\">Suggerisci</a>\n" +
         "        </nav>\n")
     }
 }

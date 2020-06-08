@@ -10,10 +10,13 @@
     color: #1DB954;
 }
 
-
-
 .navbar {
     background-color: transparent;
+    padding-right: 10%;
+}
+
+.navbar a{
+    font-size: 1.5rem;
 }
 .navBtn {
     color: white;

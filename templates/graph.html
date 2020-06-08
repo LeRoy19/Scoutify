@@ -35,6 +35,19 @@
                 <button class="btn btn-outline-secondary" type="button" id="render" onclick="render_graph(null);"><i class="fas fa-search"></i></button>
             </div>
         </div>
+        <div class="row" id="pane">
+
+            <div class="col-lg-3" id="sidebar">
+                <div class="card" id="artistCard"></div>
+
+                    <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='400' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+
+                </div>
+                <div class="col-lg-9" id="graphDiv">
+                </div>
+
+        </div>
+        <script src="//d3js.org/d3.v3.min.js"></script>
 
 
            <!-- <div class="col-lg-3" id="sidebar">
@@ -71,7 +84,6 @@
 
 
         </div>
-    </div>
 
 
 

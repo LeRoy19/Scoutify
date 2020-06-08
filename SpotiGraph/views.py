@@ -6,10 +6,14 @@ import json
 from SpotiGraph.recommender_system import rec_sys
 
 
-def index(request):
+def home(request):
+    return render(request, 'home.html')
+
+
+def explore(request):
     token = json.dumps(crawler.client_credentials_manager.get_access_token())
     request.__setattr__('client', token)
-    return render(request, 'home.html')
+    return render(request, 'explore.html')
 
 
 def recommender(request):
@@ -77,3 +81,5 @@ def tags_recommender(request):
         tags = tags.split(', ')
         recommendations = rec_sys.recommend_by_tags(tags, float(request.GET.get('accuracy')))
         return JsonResponse({'recommendations': recommendations, 'searched': tags})
+
+

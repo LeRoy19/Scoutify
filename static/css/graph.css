@@ -45,7 +45,8 @@ h1 {
 .link {
     fill: none;
     stroke: white;
-    stroke-width: 1px;
+    stroke-width: 0.7px;
+    opacity: 0.4;
 }
 
 .node circle {
