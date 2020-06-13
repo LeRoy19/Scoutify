@@ -17,10 +17,20 @@
     {% endif %}
 
     <div id="main">
-        <h1 class="font-weight-light" style="margin-top: 2%;">To get started, enter the name of an artist and the radius of the graph!</h1>
+        <div id="intro">
+            <h1 class="display-4" style="font-size: 1.2rem;">
+                Piccola intro che spiega cosa fa questa feature, messa qui per occupare un po di spazio nella pagina!
+
+            </h1>
+            <h1 class="display-4" style="font-size: 1.2rem;">
+                magari si possono inserire foto di qualche rete sociale
+
+            </h1>
+        </div>
+        <h1 class="font-weight-light" style="margin-top: 2%;">Per iniziare, inserisci il nome di un artista e il raggio del grafo!</h1>
         <div class="input-group mb-3" style="padding: 2%;">
             <div class="input-group-prepend">
-                <label class="input-group-text" style="color: white; background-color: #1DB954" for="type">Radius</label>
+                <label class="input-group-text" for="type">Radius</label>
                 <select class="custom-select" id="type" style="border-color: #1DB954;">
                 <option selected>1</option>
                 <option value='2'>2</option>
@@ -36,59 +46,9 @@
             </div>
         </div>
         <div class="row" id="pane">
-
-            <div class="col-lg-3" id="sidebar">
-                <div class="card" id="artistCard"></div>
-
-                    <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='400' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-
-                </div>
-                <div class="col-lg-9" id="graphDiv">
-                </div>
-
+            <div class="col-lg-3" id="sidebar"></div>
+            <div class="col-lg-9" id="graphDiv"></div>
         </div>
-        <script src="//d3js.org/d3.v3.min.js"></script>
-
-
-           <!-- <div class="col-lg-3" id="sidebar">
-
-                <h4>Insert the artist's name</h4>
-                <div class="input-group mb-3">
-                    <input type="text" id="art" class="form-control">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="button" id="render" onclick="render_graph(null);"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" style="color: white; background-color: #1DB954" for="type">Distance</label>
-                    </div>
-                    <select class="custom-select" id="type">
-                        <option selected>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                        <option value='5'>5</option>
-                    </select>
-                </div>
-
-                <div class="card" id="artistCard"></div>
-
-                <iframe id='player' src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width='280' height='400' frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-
-            </div>
-            <div class="col-lg-9" id="graphDiv">
-                <script src="//d3js.org/d3.v3.min.js"></script>
-                <script>drawPresentation();</script>
-            </div> -->
-
-
-        </div>
-
-
-
-
-
-
+    <script src="//d3js.org/d3.v3.min.js"></script>
 </body>
 </html>

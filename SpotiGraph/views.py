@@ -72,8 +72,6 @@ def get_last_album(request):
         ins = url.find('/album')
         return JsonResponse({'url': url[:ins] + '/embed' + url[ins:]})
 
-# TODO lowercase tags
-
 
 def tags_recommender(request):
     if request.is_ajax():

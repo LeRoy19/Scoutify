@@ -6,8 +6,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/ca78d5a4ec.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-<script src="{% static 'js/navbar.js' %}"></script>
-<link rel="stylesheet" href="{% static 'css/sidenav.css' %}">
 <script>
     function renderNav(active) {
     if(active === 'home'){
@@ -54,5 +52,11 @@
         "            <a class=\"navLink navLinkActive nav-link\" href=\"/recommender\">Suggerisci</a>\n" +
         "        </nav>\n")
     }
+}
+
+function showError(jqXHR) {
+    $("#main").html("").append("<div id='error'>");
+    $("#error").append("<i class=\"far fa-7x fa-sad-tear\"></i>").css("text-align", "center").css("margin-top", "5%")
+        .append("<h1>Error "+jqXHR.status+"...").append("<h1>Ops qualcosa è andato storto, per favore riprova!");
 }
 </script>

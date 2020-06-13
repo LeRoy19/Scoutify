@@ -72,13 +72,13 @@ text {
     pointer-events: none;
 }
 
-#sidebar{
+/*#sidebar{
     background-color: #29323c;
     border: 1px solid black;
     border-radius: 10px;
     padding-top: 1%;
     height: 100vh;
-}
+}*/
 
 div{
     text-align: center;
@@ -106,6 +106,16 @@ p {
     /*height: 60%;*/
     background-color: transparent;
     border: 0;
+}
+
+#intro {
+    text-align: left;
+    padding: 3%;
+}
+
+.input-group-text {
+    color: white;
+    background-color: #1DB954;
 }
 
 

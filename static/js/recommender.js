@@ -42,8 +42,8 @@ function recommend_by_artists() {
     let type = $("input[name='optradio']:checked").val();
 
 
-    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
-                                 <p>Looking for recommendations...</p>`);
+    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Sto cercando...</span></div>
+                                 <p>Sto cercando...</p>`);
 
     $.ajax({
         type: 'GET',
@@ -53,8 +53,8 @@ function recommend_by_artists() {
         success : function (result) {
             display_recommendations(result, result['searched']);
 
-        }, error: function () {
-            console.log("error"); //TODO adjust
+        }, error: function (jqXHR) {
+            showError(jqXHR);
         }
     })
 }
@@ -66,8 +66,8 @@ function recommend_by_recently_played (token) {
         data: {'token' : token},
         success: function (result) {
             display_recommendations(result, "last played");
-        }, error: function () {
-            console.log("error"); //TODO adjust
+        }, error: function (jqXhr) {
+            showError(jqXHR);
         }
     })
 
@@ -79,8 +79,8 @@ function recommend_by_tags() {
     let type = $("input[name='optradio']:checked").val();
 
 
-    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Looking for recommendations...</span></div>
-                                 <p>Looking for recommendations...</p>`);
+    $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 5%;' role='status'>  <span class='sr-only'>Sto cercando...</span></div>
+                                 <p>Sto cercando...</p>`);
 
     $.ajax({
         type: 'GET',
@@ -91,8 +91,8 @@ function recommend_by_tags() {
             console.log(result['recommendations']);
             display_recommendations(result, result['searched']);
 
-        }, error: function () {
-            console.log("error"); //TODO adjust
+        }, error: function (jqXHR) {
+            showError(jqXHR);
         }
     })
 }
@@ -100,7 +100,7 @@ function recommend_by_tags() {
 function tags_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di tag separati da virgole</h1>
                             <input type="text" id="in_tags" class="form-control">
-                            <small id="Help" class="form-text" style="color: white; text-align: left;">Eg: Hip-Hop, Pop, Rap &nbsp;&nbsp;&nbsp;  We recommend to insert al least 10-15 tags!</small>
+                            <small id="Help" class="form-text" style="color: white; text-align: left;">Es: Hip-Hop, Pop, Rap &nbsp;&nbsp;&nbsp;  Suggeriamo di inserire almeno 10-15 tags!</small>
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
@@ -133,7 +133,7 @@ function artists_rec() {
     $("#pane").html(`<h1 class="display-4">Inserisci una lista di artisti separati da virgole</h1>
                             
                             <input type="text" id="art" class="form-control">
-                            <small id="Help" class="form-text" style="color: white; text-align: left;">Eg: Ed Sheeran, Rihanna, Shakira</small>
+                            <small id="Help" class="form-text" style="color: white; text-align: left;">Es: Ed Sheeran, Rihanna, Shakira</small>
                             <div class="row" style="margin: 1%;">
                                 <div class="form-check col-lg-4">
                                   <label class="form-check-label" for="radio1">
@@ -197,12 +197,12 @@ function getToken() {
 function played_rec() {
     let token = getToken();
     if(token == null){
-        $("#pane").html(`<h1 class='display-4'>Login with your spotify account</h1>                       
+        $("#pane").html(`<h1 class='display-4'>Effettua il login con il tuo account Spotify!</h1>                       
                                 <button class='btn' id='loginBtn'><i class="fab fa-spotify"></i> Login with spotify</button>`);
     }
     else {
-        $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 2%;' role='status'>  <span class='sr-only'>Retrieving data...</span></div>
-                                 <p>Looking for recommendations...</p>`);
+        $("#pane").html( `<div class='spinner-grow'  style='color: #1DB954; margin-top: 2%;' role='status'>  <span class='sr-only'>Sto cercando...</span></div>
+                                 <p>Sto cercando...</p>`);
         recommend_by_recently_played(token);
     }
 
@@ -228,7 +228,7 @@ function display_recommendations(result, searched) {
 
 
     if(result['recommendations'][0]['similarity'] !== -1){
-                $("#pane").html("").append(`<hr><h4 class="display-4" style="color: white;">Recommendations based on `
+                $("#pane").html("").append(`<hr><h4 class="display-4" style="color: white; font-size: 3rem">Raccomandazioni basate su `
                 +artists +`</h4><div id='resultsDiv' class='row'></div>`);
 
                 result['recommendations'].forEach(function (artist) {
@@ -245,8 +245,8 @@ function display_recommendations(result, searched) {
                                                             </div>
                                                             <div class="flip-card-back">
                                                                   <h3 class='card-title' style="margin-top: 6%;">`+artist['name']+`</h3>
-                                                                  <button style="margin: 1%;" class="btn open" onclick="see_graph('`+artist['name'] +`')"><i class="fab fa-spotify"></i> See artist's graph</button>
-                                                                  <button style="margin: 3% 1% 1%;" class="btn open" onclick="open_on_spotify('` + artist['url'] +`')"><i class="fab fa-spotify"></i> Open on Spotify</button>
+                                                                  <button style="margin: 3%; " class="btn open" onclick="see_graph('`+artist['name'] +`')"><i class="fab fa-spotify"></i> Genera il suo grafo</button>
+                                                                  <button style="margin: 3% 1% 1%;" class="btn open" onclick="open_on_spotify('` + artist['url'] +`')"><i class="fab fa-spotify"></i> Apri su Spotify</button>
                                                             </div>
                                                         </div>
                                                     </div>
