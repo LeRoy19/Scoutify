@@ -49,8 +49,7 @@ def track_recommender(request):
         for i in range(len(last_played)):
             for j in last_played[i]['artists']:
                 ids.append(j['id'])
-        print(ids)
-        recommendations = rec_sys.recommend_by_artists(ids, 0.25)
+        recommendations = rec_sys.recommend_by_artists(ids, 0.1)
         return JsonResponse({'recommendations': recommendations})
 
 

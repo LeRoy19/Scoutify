@@ -5,10 +5,7 @@ from pymongo import MongoClient
 from spotipy.oauth2 import SpotifyClientCredentials
 
 # credentials
-LAST_KEY = "5f52c83a8ed0440af21be4b5514262ae"
-LAST_SECRET = "b9f3f2c9d1a855c6dd0508be9208f5e4"
-SPOTIFY_KEY = "8dceec3b5bec4d618979142ee304feb9"
-SPOTIFY_SECRET = "8f9afd96f99d49b38946b18ea05bd8d6"
+
 client = MongoClient("mongodb://localhost:27017/")
 db = client["spotigraph"]
 db_artists = db['artists']

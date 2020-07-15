@@ -3,7 +3,7 @@
 <head>
 {% load static %}
     <meta charset="UTF-8">
-    <title>Recommender</title>
+    <title>Scoutify</title>
     {% include 'include.html' %}
     <link rel="stylesheet" href="{% static 'css/recommender.css' %}">
     <script src="{% static 'js/recommender.js' %}"></script>
@@ -12,7 +12,6 @@
     <script>renderNav('recommender')</script>
     <div id="main">
 
-        {% include 'sidenav.html' %}
         <div class="row" id = "boxesDiv">
             <div class="col-lg-4 boxes">
                 <div class="card">
@@ -21,7 +20,7 @@
                         <div class="boxes-icon"><i class="fas fa-4x fa-headphones" ></i></div>
                     </div>
                     <div class="card-footer footer1">
-                        <p id="p1" style="font-weight: bold;">Last listened track recommender</p>
+                        <p id="p1" style="font-weight: bold;">Recommender basato sugli ultimi ascolti</p>
                     </div>
                 </div>
             </div>
@@ -33,7 +32,7 @@
                         <div class="boxes-icon"><i class="fas fa-4x fa-guitar"></i></div>
                     </div>
                     <div class="card-footer footer1">
-                            <p id="p2">Artists recommender</p>
+                            <p id="p2">Recommender basato su artisti</p>
                     </div>
                 </div>
             </div>
@@ -44,7 +43,7 @@
                         <div class="boxes-icon"><i class="fas fa-4x fa-tag"></i></div>
                     </div>
                     <div class="card-footer footer1" >
-                        <p id="p3">Tags recommender</p>
+                        <p id="p3">Recommender basato su tags</p>
                     </div>
                 </div>
             </div>

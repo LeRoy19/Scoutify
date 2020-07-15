@@ -217,7 +217,7 @@ function display_recommendations(result, searched) {
 
     let artists = "";
     if (searched === "last played"){
-        artists = "your last played tracks";
+        artists = "ultimi ascolti";
     }
     else {
         searched.forEach(function (artist) {

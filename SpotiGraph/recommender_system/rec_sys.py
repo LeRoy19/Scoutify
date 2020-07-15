@@ -41,8 +41,7 @@ def recommend_by_artists(in_artists: list, accuracy: float, number: int = None) 
     in_rows = []
     for i in in_artists:
         if i in all_artists.keys():
-            arr = matrix[all_artists[i]['row']]
-            in_rows.append(arr)
+            in_rows.append(matrix[all_artists[i]['row']])
 
     if not in_rows:
         return []

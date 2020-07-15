@@ -44,6 +44,7 @@ def create_graph(max_nodes: int, name: str, max_diameter: int = None) -> dict:
     for node in g.nodes:
         path = shortest_path(g, start, node)
         data['nodes'][node]['path'] = path
+    # TODO vedere se serve g come ritorno
     return {'graph': g, 'data': data}
 
 
