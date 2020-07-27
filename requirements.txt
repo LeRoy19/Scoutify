@@ -1,41 +1,62 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: win-64
-asgiref=3.2.7=py_0
-blas=1.0=mkl
-ca-certificates=2020.1.1=0
-certifi=2020.4.5.1=py37_0
-chardet=3.0.4=pypi_0
-decorator=4.4.2=py_0
-django=3.0.3=py_0
-dnspython=1.16.0=py37_0
-icc_rt=2019.0.0=h0cc432a_1
-idna=2.9=pypi_0
-intel-openmp=2020.0=166
-joblib=0.14.1=py_0
-mkl=2020.0=166
-mkl-service=2.3.0=py37hb782905_0
-mkl_fft=1.0.15=py37h14836fe_0
-mkl_random=1.1.0=py37h675688f_0
-networkx=2.4=py_0
-numpy=1.18.1=py37h93ca92e_0
-numpy-base=1.18.1=py37hc3f5095_1
-openssl=1.1.1=he774522_0
-pip=20.0.2=py37_1
-pylast=3.2.1=pypi_0
-pymongo=3.9.0=py37ha925a31_0
-python=3.7.7=h60c2a47_2
-pytz=2019.3=py_0
-requests=2.23.0=pypi_0
-scikit-learn=0.22.1=py37h6288b17_0
-scipy=1.4.1=py37h9439919_0
-setuptools=46.1.3=py37_0
-six=1.14.0=py37_0
-spotipy=2.11.2=pypi_0
-sqlite=3.31.1=he774522_0
-sqlparse=0.3.1=py_0
-urllib3=1.25.9=pypi_0
-vc=14.1=h0510ff6_4
-vs2015_runtime=14.16.27012=hf0eaf9b_1
-wheel=0.34.2=py37_0
-wincertstore=0.2=py37_0
+# packages in environment at C:\Users\guast\anaconda3\envs\Tesi_Spotify:
+#
+# Name                    Version                   Build  Channel
+asgiref                   3.2.7                      py_0  
+blas                      1.0                         mkl  
+ca-certificates           2020.4.5.1           hecc5488_0    conda-forge
+certifi                   2020.4.5.1       py37hc8dfbb8_0    conda-forge
+chardet                   3.0.4                    pypi_0    pypi
+cycler                    0.10.0                     py_2    conda-forge
+decorator                 4.4.2                      py_0    anaconda
+django                    3.0.3                      py_0  
+dnspython                 1.16.0                   py37_0    anaconda
+freetype                  2.10.2               hd328e21_0    conda-forge
+icc_rt                    2019.0.0             h0cc432a_1  
+icu                       64.2                 he025d50_1    conda-forge
+idna                      2.9                      pypi_0    pypi
+intel-openmp              2020.0                      166  
+joblib                    0.14.1                     py_0  
+jpeg                      9c                hfa6e2cd_1001    conda-forge
+kiwisolver                1.2.0            py37heaa310e_0    conda-forge
+libclang                  9.0.1           default_hf44288c_0    conda-forge
+libpng                    1.6.37               hfe6a214_1    conda-forge
+matplotlib                3.2.1                         0    conda-forge
+matplotlib-base           3.2.1            py37h911224e_0    conda-forge
+mkl                       2020.0                      166  
+mkl-service               2.3.0            py37hb782905_0  
+mkl_fft                   1.0.15           py37h14836fe_0  
+mkl_random                1.1.0            py37h675688f_0  
+networkx                  2.4                        py_0    anaconda
+numpy                     1.18.1           py37h93ca92e_0  
+numpy-base                1.18.1           py37hc3f5095_1  
+openssl                   1.1.1g               he774522_0    conda-forge
+pip                       20.0.2                   py37_1  
+pylast                    3.2.1                    pypi_0    pypi
+pymongo                   3.9.0            py37ha925a31_0    anaconda
+pyparsing                 2.4.7              pyh9f0ad1d_0    conda-forge
+pyqt                      5.12.3           py37h1834ac0_3    conda-forge
+pyqt5-sip                 4.19.18                  pypi_0    pypi
+pyqtchart                 5.12                     pypi_0    pypi
+pyqtwebengine             5.12.1                   pypi_0    pypi
+python                    3.7.7                h60c2a47_2  
+python-dateutil           2.8.1                      py_0    conda-forge
+python_abi                3.7                     1_cp37m    conda-forge
+pytz                      2019.3                     py_0  
+qt                        5.12.5               h7ef1ec2_0    conda-forge
+requests                  2.23.0                   pypi_0    pypi
+scikit-learn              0.22.1           py37h6288b17_0  
+scipy                     1.4.1            py37h9439919_0  
+setuptools                46.1.3                   py37_0  
+six                       1.14.0                   py37_0  
+snap-stanford             5.0.0                    pypi_0    pypi
+snappy                    1.1.8                he025d50_1    conda-forge
+spotipy                   2.11.2                   pypi_0    pypi
+sqlite                    3.31.1               he774522_0  
+sqlparse                  0.3.1                      py_0  
+tornado                   6.0.4            py37hfa6e2cd_0    conda-forge
+urllib3                   1.25.9                   pypi_0    pypi
+vc                        14.1                 h0510ff6_4  
+vs2015_runtime            14.16.27012          hf0eaf9b_1  
+wheel                     0.34.2                   py37_0  
+wincertstore              0.2                      py37_0  
+zlib                      1.2.11            h2fa13f4_1006    conda-forge

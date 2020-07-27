@@ -22,15 +22,17 @@ function render_graph(name) {
                     .css("padding-top", "1%").css("height", "100vh");
                 if(!$("#artistCard").length){
                     $("#sidebar").append('<div class="card" id="artistCard"></div>')
-                        .append('<iframe id="player" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 2%;" width="280" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
+                        .append('<iframe id="player" src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF" style="margin-top: 5%;" width="280" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>');
                     $("#artistCard").css("height", "60%");
                 }
                 drawArtistsGraph(result["links"], result["nodes"], name, result["id"]);
+                window.scrollTo(0, document.body.scrollHeight);
             },
             error: function (jqXHR) {
                 showError(jqXHR);
             }
         });
+
 }
 
 function drawArtistsGraph(links, Nodes, name, id){
@@ -231,104 +233,3 @@ function drawArtistsGraph(links, Nodes, name, id){
 function open_on_spotify(url) {
     window.open(url,"_blank");
 }
-
-
-
-
-
-
-
-
-/*function drawPresentation() {
-
-    var nodes = {};
-    var links = [
-        {source: 1, target: 2},
-        {source: 1, target: 3},
-        {source: 1, target: 4},
-        {source: 2, target: 4},
-        {source: 2, target: 3},
-        {source: 4, target: 3},
-        {source: 4, target: 5},
-        {source: 5, target: 6},
-        {source: 7, target: 8},
-        {source: 6, target: 7}];
-
-    links.forEach(function (link) {
-            link.source = nodes[link.source] || (nodes[link.source] = {name: link.source, color: getRandomColor()});
-            link.target = nodes[link.target] || (nodes[link.target] = {name: link.target, color: getRandomColor()});
-    });
-    var width = $("#graphDiv").width();
-    var height = $("#pane").height();
-
-
-    var force = d3.layout.force()
-        .nodes(d3.values(nodes))
-        .links(links)
-        .size([width, height])
-        .linkDistance(70)
-        .charge(-600)
-        .on("tick", tick)
-        .start();
-
-    var svg = d3.select("#graphDiv").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    var link = svg.selectAll(".link")
-        .data(force.links())
-        .enter().append("line")
-        .attr("class", "link")
-        .style("stroke", "white");
-
-
-    var node = svg.selectAll(".node")
-        .data(force.nodes())
-        .enter().append("g")
-        .attr("class", "node")
-        .style("fill", function (d) {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-                return color; })
-        .call(force.drag);
-
-    node.append("circle")
-        .attr("r", 7);
-
-
-    function tick() {
-        link
-            .attr("x1", function (d) {
-                return d.source.x;
-            })
-            .attr("y1", function (d) {
-                return d.source.y;
-            })
-            .attr("x2", function (d) {
-                return d.target.x;
-            })
-            .attr("y2", function (d) {
-                return d.target.y;
-            });
-
-        node
-            .attr("transform", function (d) {
-                return "translate(" + d.x + "," + d.y + ")";
-            });
-    }
-
-
-
-}
-
-function getRandomColor() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-}*/

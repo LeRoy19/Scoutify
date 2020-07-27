@@ -17,50 +17,64 @@
     <div id="main">
         <script>renderNav('home')</script>
         <div id="pane">
-            <div class="row" id="intro">
-                <h1 class="display-4" style="font-size: 2rem; color: white;">Scoutify ti permette di avere un interfaccia ecc..</h1>
-            </div>
-            <div data-aos="fade-right" data-aos-duration="700" data-aos-once="false" data-aos-easing="linear" id="explore">
-                <a href="/explore" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Esplora</a>
-                <p style="margin-top: 3%">
-                    Esplora è un'area in cui puoi scoprire gli artisti più ascoltati al momento nei vari paesi del mondo
-                ricavati dalle top 50 chart di spotify</p>
-                <p>Gli artisti sono accompagnati da alcune loro info come popolarità, numero di followers e generi musicali</p>
-                <p>È anche possibile ascoltare un'anteprima del suo ultimo album di successo premendo l'apposito bottone e scorrendo
-                le canzoni tramite il player di Spotify posto alla fine della pagina senza dover effettuare il login.</p>
-
-
-            </div>
-            <div data-aos="fade-left" data-aos-duration="700" data-aos-easing="linear" id="graph">
-                <a href="/graph" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Grafo</a>
-                <p style="margin-top: 3%">
-                     è una pagina in cui puoi visualizzare ed analizzare un grafo di uno specifico artista.
-                    In particolare è possibile analizzare i nodi direttamente collegati a lui oppure nodi che non sono
-                    direttamente collegati ma che hanno una qualche forma di correlazione.
-                </p>
-                <p>Anche in questa pagina è possibile visualizzare le infomazioni dei nodi (o artisti) semplicemente
-                passandoci su con il puntatore del mouse, ed ascoltare il suo ultimo album di successo, oppure visualizzare
-                    la pagina dell'artista direttamente su Spotify.</p>
+            <div class="row" id="intro" style="text-align: center">
+                <h1 class="display-4" style="font-size: 2rem; color: white;">Scoutify ti permette di avere un interfaccia facile da utilizzare per
+                navigare all'interno della rete delle correlazioni tra artisti in Spotify e ricevere suggerimenti su
+                    possibili nuovi artisti da ascoltare!</h1>
             </div>
 
+                <div class="row">
+                    <div data-aos="fade-down" data-aos-duration="700" data-aos-once="false" data-aos-easing="linear"
+                         class="col-lg-4 col-lg-offset-4" id="explore">
+                        <br>
+                        <a href="/explore" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Explore</a>
+                        <p style="margin-top: 3%">
+                            Explore è un'area in cui puoi scoprire gli artisti più ascoltati al momento nei vari paesi
+                            del mondo ricavati dalle top 50 chart di spotify.</p>
+                        <p>
+                            Gli artisti sono accompagnati da alcune loro info come popolarità, numero di followers e
+                            generi musicali.
+                        </p>
+                        <p>
+                            È anche possibile ascoltare un'anteprima del suo ultimo album di successo premendo
+                            l'apposito bottone e scorrendo le canzoni tramite il player di Spotify posto alla fine della
+                            pagina senza dover effettuare alcun login.
+                        </p>
+                    </div>
+                    <div data-aos="fade-down" data-aos-duration="700" data-aos-once="false" data-aos-easing="linear"
+                         class="col-lg-4 col-lg-offset-4" id="visualization">
+                        <br>
+                        <a href="/graph" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Graph Visualization</a>
+                        <p style="margin-top: 3%">Graph Visualization è una pagina in cui puoi visualizzare ed analizzare
+                            la rete di uno specifico artista. In particolare è possibile analizzare gli artisti direttamente
+                            correlati ad un altro, oppure artisti che non sono direttamente collegati ma che hanno una
+                            qualche forma di correlazione tra di essi.
+                        </p>
+                        <p>
+                            Anche in questa pagina è possibile visualizzare le infomazioni degli artisti semplicemente
+                            cliccando sul nodo che lo rappresenta, ed ascoltare il suo ultimo album di successo,
+                            oppure visualizzare la propria pagina direttamente su Spotify.
+                        </p>
+                    </div>
+                    <div data-aos="fade-down" data-aos-duration="700" data-aos-once="false" data-aos-easing="linear"
+                         class="col-lg-4 col-lg-offset-4" id="rec">
+                        <br>
+                        <a href="/recommender" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Recommendations</a>
+                        <p style="margin-top: 3%">
+                            Recommendations è una pagina in cui un algoritmo di intelligenza artificiale basato su tag,
+                            può suggerire ulcuni artisti da ascoltare in base ad un set di informazioni inizali come ultime
+                            tracce ascoltate, una lista di artisti o una lista di tag.
+                        </p>
+                        <p>
+                            Le informazioni raccolte sugli artisti sono frutto dell'unioni di informazioni prese da Spotify
+                            e altre dall'altrettanto nota piattaforma last.fm. L'unione di queste due informazioni ci ha
+                            permesso di classificare al miglior modo gli artisti così da avere raccomandazioni più attendibili!
+                        </p>
+                    </div>
+                </div>
 
-           <div data-aos="fade-right" data-aos-duration="700" data-aos-easing="linear" id="suggerisci">
-                <a href="/recommender" class="display-4 a4" style="text-decoration: none; color: #1DB954;">Recommender</a>
-                <p style="margin-top: 3%">
-                    Recommender è una pagina in cui un algoritmo di intelligenza artificiale basato su dei tag, può suggerire
-                    ulcuni artisti da ascoltare in base ad un set di informazioni inizali come ultime tracce ascoltate,
-                    una lista di artisti o una lista di tag.
-                </p>
-                <p>Una volta mostrati i risultati, tramite gli appositi bottoni è possibile visualizzare la pagina dell'artista
-                    su Spotify, oppure visualizzare il grafo dell'artista scelto nell'apposita pagina.
-                </p>
             </div>
-
-
-
-
         </div>
-    </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>AOS.init();</script>

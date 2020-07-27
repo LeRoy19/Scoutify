@@ -6,6 +6,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 
 # credentials
 
+
 client = MongoClient("mongodb://localhost:27017/")
 db = client["spotigraph"]
 db_artists = db['artists']
